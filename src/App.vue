@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div>
-      <!-- <video-player :options="videoOptions" /> -->
+      <video-player :options="videoOptions" />
       <!-- <video-player-2></video-player-2> -->
-      <audio-player :options="audioOptions"></audio-player>
+      <!-- <audio-player :options="audioOptions"></audio-player> -->
     </div>
   </div>
 </template>
@@ -36,11 +36,11 @@ export default {
     return {
       videoOptions: {
         code: '',
-        autoplay: false,
+        autoplay: true,
         controls: true,
-        // muted: true,
+        muted: false,
         controlBar: {
-          fullscreenToggle: true
+          // fullscreenToggle: true
         },
         sources: [
           {
@@ -52,14 +52,6 @@ export default {
         ],
       },
       audioOptions: {
-        // poster: './music_bg.png',
-        // autoplay: true,
-        controls: true,
-        controlBar: {
-          fullscreenToggle: false,
-          // durationDisplay: false,
-          // currentTimeDisplay: false
-        },
         sources: [
           {
             src: 'https://storezw.czbanbantong.com:443/docum/rms/nrms/20210713/1626158362062_rcode.mp3',

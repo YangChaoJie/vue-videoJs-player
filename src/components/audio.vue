@@ -25,7 +25,13 @@
     >
       <div class="header">播放列表</div>
 
-      <div class="list" @click="onPlayAtIndex(index)" :class="{active: index === i}" v-for="(item, index) in options.sources" :key="index">
+      <div
+        class="list"
+        @click="onPlayAtIndex(index)"
+        :class="{ active: index === i }"
+        v-for="(item, index) in options.sources"
+        :key="index"
+      >
         {{ item.name }}
       </div>
     </van-popup>
@@ -51,6 +57,7 @@ export default {
     AudioControlBar
   },
   props: {
+    // 音频播放页面的配置
     options: {
       type: Object,
       default () {
@@ -58,19 +65,45 @@ export default {
       },
     },
   },
+  watch: {
+    options: {// fullScreen
+      handler (val) {
+        this.audioOptions = {
+          ...val,
+          ...this.defaultConfig
+        };
+        console.log('audioOptions', this.audioOptions);
+      },
+      immediate: true
+    }
+  },
   data () {
     return {
       player: null,
       i: 0,
       playState: '2',
-      show: false
+      show: false,
+      defaultConfig: {
+        // poster: './music_bg.png',
+        // autoplay: true,
+        controls: true,
+        controlBar: {
+          fullscreenToggle: false,
+          // durationDisplay: false,
+          // currentTimeDisplay: false
+        },
+        fullScreen: true // 是否全屏
+      },
+      // 播放的配置项
+      audioOptions: {
+      }
     }
   },
   mounted () {
     const that = this;
     this.player = videojs(
       this.$refs.audioPlayer,
-      this.options,
+      this.audioOptions,
       function onPlayerReady () {
         console.log('onPlayerReady', this)
         this.on("loadstart", function () {
@@ -95,7 +128,7 @@ export default {
           console.log("视频播放中")
         });
         this.on("pause", function () {
-          console.log(that);
+          debugger;
           console.log("视频暂停播放")
         });
         this.on("ended", function () {
@@ -143,8 +176,18 @@ export default {
       artist: '',
       track: videoObj.name
     });
+    this.setConfigStyle();
   },
   methods: {
+    setConfigStyle () {
+      console.log('aa', this.audioOptions);
+      if (this.audioOptions.fullScreen && this.audioOptions.fullScreen === true) {
+        console.log('ss');
+        document.getElementsByClassName('vjs-tech')[0].style.backgroundSize = '100vw calc(100vh - 100px)';
+        document.getElementsByClassName('vjs-tech')[0].style.backgroundImage = "url(src/assets/player/fullScreen_bg.png)";
+        document.getElementsByClassName('video-js')[0].style.height = 'calc(100vh - 100px)';
+      }
+    },
     // 点击播放
     onPlay (state) {
       console.log('洛洛洛', this.player);
@@ -226,8 +269,8 @@ export default {
   .list {
     padding: 5px 20px;
   }
-    .active {
-      color: #0C90F8;
-    }
+  .active {
+    color: #0c90f8;
+  }
 }
 </style>

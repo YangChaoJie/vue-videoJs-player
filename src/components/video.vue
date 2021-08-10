@@ -2,7 +2,7 @@
   <div>
     <video
       controls
-      preload="none"
+      preload="auto"
       webkit-playsinline="true"
       playsinline="true"
       data-setup='{ "playbackRates": [1, 1.5, 2] }'
@@ -94,13 +94,15 @@ export default {
         })
       }
     )
-     this.player.landscapeFullscreen({
+    this.player.landscapeFullscreen({
       fullscreen: {
         enterOnRotate: true,
         alwaysInLandscapeMode: true,
         iOS: true
       }
     })
+    this.player.requestFullscreen();
+    document.querySelector('.vjs-big-play-button').addEventListener('click', this.player.requestFullscreen)
     this.newButtonToggle()
   },
   methods: {
