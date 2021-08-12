@@ -62,6 +62,9 @@ export default {
       }
       this.$emit('onPlay', this.state);
     },
+    hanldlePause () {
+      this.state = '2';
+    },
     // 上一曲
     onPre () {
       this.$emit('onPre');

@@ -9,12 +9,14 @@
       ref="audioPlayer"
       class="video-js vjs-big-play-centered"
     ></video>
+      <slot name="middle"></slot>
     <audio-control-bar
       @onPre="onPre"
       @onPlay="onPlay"
       @switchMode="switchMode"
       @onNext="onNext"
       @showList="onShowList"
+      ref="audioControlBar"
     ></audio-control-bar>
 
     <van-popup
@@ -52,6 +54,7 @@ const DEFAULT_EVENTS = [
   'canplay',
   'canplaythrough',
   'play',
+  'timeupdate',
   'pause',
   'waiting',
   'playing',
@@ -94,6 +97,7 @@ export default {
         // poster: './music_bg.png',
         // autoplay: true,
         controls: true,
+        inactivityTimeout: 0, // 一直显示 control bar
         controlBar: {
           fullscreenToggle: false,
           // durationDisplay: false,
@@ -112,10 +116,19 @@ export default {
   methods: {
     initialize () {
       const that = this;
-
       // emit event
       const emitPlayerState = (event) => {
         if (event) {
+          // console.log('监听事件', event,this.player.currentTime(), this.player.duration(),this.player);
+          switch (event) {
+            case 'ended':
+              this.onPlayEnd();
+              break;
+            case 'pause':
+              this.doPause();  
+            default:
+              break;
+          }
           this.$emit(event, this.player)
         }
       }
@@ -124,64 +137,17 @@ export default {
         this.$refs.audioPlayer,
         this.audioOptions,
         function onPlayerReady () {
-          console.log('onPlayerReady', this)
-          this.on("loadstart", function () {
-            console.log("开始请求数据 ");
-          })
-          this.on("progress", function () {
-            console.log("正在请求数据 ");
-          })
-          this.on("loadedmetadata", function () {
-            console.log("获取资源长度完成 ")
-          })
-          this.on("canplaythrough", function () {
-            console.log("视频源数据加载完成")
-          })
-          this.on("waiting", function () {
-            console.log("等待数据")
-          });
-          this.on("play", function () {
-            console.log("视频开始播放")
-          });
-          this.on("playing", function () {
-            console.log("视频播放中")
-          });
-          this.on("pause", function () {
-            console.log("视频暂停播放")
-          });
-          this.on("ended", function () {
-            console.log("视频播放结束", that.playState);
-            if (that.playState === '2') {
-              that.i++;
-              if (that.i >= that.options.sources.length) {
-                that.i = 0;
-              }
-              this.currentPlay();
-            } else {
-              this.play();
+          // events
+          const events = DEFAULT_EVENTS;
+          for (let i = 0; i < events.length; i++) {
+            if (typeof events[i] === 'string') {
+              (event => {
+                this.on(event, () => {
+                  emitPlayerState(event)
+                })
+              })(events[i])
             }
-          });
-          this.on("error", function () {
-            console.log("加载错误")
-          });
-          this.on("seeking", function () {
-            console.log("视频跳转中");
-          })
-          this.on("seeked", function () {
-            console.log("视频跳转结束");
-          })
-          this.on("ratechange", function () {
-            console.log("播放速率改变")
-          });
-          this.on("timeupdate", function () {
-            console.log("播放时长改变", that.playState);
-          })
-          this.on("volumechange", function () {
-            console.log("音量改变");
-          })
-          this.on("stalled", function () {
-            console.log("网速异常");
-          })
+          }
         }
       )
       const videoObj = this.options.sources[0];
@@ -208,10 +174,14 @@ export default {
         this.player.pause();
       }
     },
+    doPause () {
+      this.$refs.audioControlBar.hanldlePause();
+    },
     switchMode (state) {
       console.log('iii', state);
       this.playState = state;
     },
+    // 播放结束切换
     onPlayEnd () {
       if (this.playState === '2') {
         this.i++;

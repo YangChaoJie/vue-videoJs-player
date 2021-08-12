@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="vcom-video">
     <video
       controls
       preload="none"
@@ -36,7 +36,6 @@ export default {
     }
   },
   mounted () {
-    console.log('ooooo', o9n);
     const that = this;
     this.player = videojs(
       this.$refs.videoPlayer,

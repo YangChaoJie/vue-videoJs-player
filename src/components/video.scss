@@ -2,18 +2,6 @@ body {
     display: block;
     margin: 0px;
 }
-// @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
-//   html {
-//     transform: rotate(-90deg);
-//     transform-origin: left bottom;
-//     width: 100vh;
-//     height: 100vw;
-//     overflow-x: hidden;
-//     position: absolute;
-//     top: 100%;
-//     left: 0;
-//   }
-// }
 /*
   Player Skin Designer for Video.js
   http://videojs.com
@@ -148,4 +136,32 @@ $slider-bg-color: lighten($primary-background-color, 33%);
   right: 0;
   height: 80% !important;
   top: 10%;
+}
+.vjs-big-play-button {
+  background-color: transparent !important;
+  height: 1.8em !important;
+  top: 50% !important;
+  left: 50% !important;
+  // right: 0 !important;
+  // bottom: 0 !important;
+  background-image: url('../assets/player/play_btn.png') !important;
+  background-repeat: no-repeat !important;
+  background-size: 64px !important;
+  background-position: 50% 50% !important;
+  border: none !important; // @stylint ignore
+  box-shadow: none !important; // @stylint ignore
+  &:before {
+    content: "" !important;
+    display: none !important;
+  }
+  &:hover {
+    background-color: transparent !important;
+    opacity: .7 !important;
+  }
+  .vjs-icon-placeholder {
+  &:before {
+    content: "" !important;
+    display: none !important;
+  }
+}
 }
