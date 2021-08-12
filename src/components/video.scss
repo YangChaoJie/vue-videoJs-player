@@ -2,7 +2,18 @@ body {
     display: block;
     margin: 0px;
 }
-
+// @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
+//   html {
+//     transform: rotate(-90deg);
+//     transform-origin: left bottom;
+//     width: 100vh;
+//     height: 100vw;
+//     overflow-x: hidden;
+//     position: absolute;
+//     top: 100%;
+//     left: 0;
+//   }
+// }
 /*
   Player Skin Designer for Video.js
   http://videojs.com

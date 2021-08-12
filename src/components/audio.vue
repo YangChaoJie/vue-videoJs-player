@@ -44,13 +44,20 @@ import 'video.js/dist/video-js.css'
 import './SettingMenu/SettingMenuButton';
 import './video.scss'
 import './audio/audio.scss'
-import audiojs from './audio/audio.js'
+import './audio/audio.js'
 import AudioControlBar from './audioControlBar.vue'
-// import { createApp } from 'vue';
-// import { Popup } from 'vant';
-// const app = createApp();
-// app.use(Popup);
 
+const DEFAULT_EVENTS = [
+  'loadeddata',
+  'canplay',
+  'canplaythrough',
+  'play',
+  'pause',
+  'waiting',
+  'playing',
+  'ended',
+  'error'
+]
 export default {
   name: 'audio',
   components: {
@@ -69,8 +76,8 @@ export default {
     options: {// fullScreen
       handler (val) {
         this.audioOptions = {
-          ...val,
-          ...this.defaultConfig
+          ...this.defaultConfig,
+          ...val
         };
         console.log('audioOptions', this.audioOptions);
       },
@@ -100,85 +107,90 @@ export default {
     }
   },
   mounted () {
-    const that = this;
-    this.player = videojs(
-      this.$refs.audioPlayer,
-      this.audioOptions,
-      function onPlayerReady () {
-        console.log('onPlayerReady', this)
-        this.on("loadstart", function () {
-          console.log("开始请求数据 ");
-        })
-        this.on("progress", function () {
-          console.log("正在请求数据 ");
-        })
-        this.on("loadedmetadata", function () {
-          console.log("获取资源长度完成 ")
-        })
-        this.on("canplaythrough", function () {
-          console.log("视频源数据加载完成")
-        })
-        this.on("waiting", function () {
-          console.log("等待数据")
-        });
-        this.on("play", function () {
-          console.log("视频开始播放")
-        });
-        this.on("playing", function () {
-          console.log("视频播放中")
-        });
-        this.on("pause", function () {
-          debugger;
-          console.log("视频暂停播放")
-        });
-        this.on("ended", function () {
-          console.log("视频播放结束", that.playState);
-          // that.player.loop(true);
-          if (that.playState === '2') {
-            that.i++;
-            if (that.i >= that.options.sources.length) {
-              that.i = 0;
-            }
-            this.currentPlay();
-          } else {
-            this.play();
-          }
-        });
-        this.on("error", function () {
-          console.log("加载错误")
-        });
-        this.on("seeking", function () {
-          console.log("视频跳转中");
-        })
-        this.on("seeked", function () {
-          console.log("视频跳转结束");
-        })
-        this.on("ratechange", function () {
-          console.log("播放速率改变")
-        });
-        this.on("timeupdate", function () {
-          console.log("播放时长改变", that.playState);
-          // previousTime = this.currentTime();
-        })
-        this.on("volumechange", function () {
-          console.log("音量改变");
-        })
-        this.on("stalled", function () {
-          console.log("网速异常");
-        })
-        this.controlBar.progressControl.seekBar.on('mousedown', function (event) {
-          console.log("previous: ", event);
-        });
-      }
-    )
-    const videoObj = this.options.sources[0];
-    this.player.audioPlayer({
-      artist: '',
-      track: videoObj.name
-    });
-    this.setConfigStyle();
+    this.initialize();
   },
   methods: {
+    initialize () {
+      const that = this;
+
+      // emit event
+      const emitPlayerState = (event) => {
+        if (event) {
+          this.$emit(event, this.player)
+        }
+      }
+
+      this.player = videojs(
+        this.$refs.audioPlayer,
+        this.audioOptions,
+        function onPlayerReady () {
+          console.log('onPlayerReady', this)
+          this.on("loadstart", function () {
+            console.log("开始请求数据 ");
+          })
+          this.on("progress", function () {
+            console.log("正在请求数据 ");
+          })
+          this.on("loadedmetadata", function () {
+            console.log("获取资源长度完成 ")
+          })
+          this.on("canplaythrough", function () {
+            console.log("视频源数据加载完成")
+          })
+          this.on("waiting", function () {
+            console.log("等待数据")
+          });
+          this.on("play", function () {
+            console.log("视频开始播放")
+          });
+          this.on("playing", function () {
+            console.log("视频播放中")
+          });
+          this.on("pause", function () {
+            console.log("视频暂停播放")
+          });
+          this.on("ended", function () {
+            console.log("视频播放结束", that.playState);
+            if (that.playState === '2') {
+              that.i++;
+              if (that.i >= that.options.sources.length) {
+                that.i = 0;
+              }
+              this.currentPlay();
+            } else {
+              this.play();
+            }
+          });
+          this.on("error", function () {
+            console.log("加载错误")
+          });
+          this.on("seeking", function () {
+            console.log("视频跳转中");
+          })
+          this.on("seeked", function () {
+            console.log("视频跳转结束");
+          })
+          this.on("ratechange", function () {
+            console.log("播放速率改变")
+          });
+          this.on("timeupdate", function () {
+            console.log("播放时长改变", that.playState);
+          })
+          this.on("volumechange", function () {
+            console.log("音量改变");
+          })
+          this.on("stalled", function () {
+            console.log("网速异常");
+          })
+        }
+      )
+      const videoObj = this.options.sources[0];
+      this.player.audioPlayer({
+        artist: '',
+        track: videoObj.name
+      });
+      this.setConfigStyle();
+    },
     setConfigStyle () {
       console.log('aa', this.audioOptions);
       if (this.audioOptions.fullScreen && this.audioOptions.fullScreen === true) {
@@ -190,7 +202,6 @@ export default {
     },
     // 点击播放
     onPlay (state) {
-      console.log('洛洛洛', this.player);
       if (state === '1') {
         this.player.play();
       } else {
@@ -200,6 +211,17 @@ export default {
     switchMode (state) {
       console.log('iii', state);
       this.playState = state;
+    },
+    onPlayEnd () {
+      if (this.playState === '2') {
+        this.i++;
+        if (this.i >= this.options.sources.length) {
+          this.i = 0;
+        }
+        this.currentPlay();
+      } else {
+        this.player.play();
+      }
     },
     // 上一曲
     onPre () {

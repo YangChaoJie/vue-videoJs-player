@@ -1,6 +1,18 @@
 {
-  "name": "my-vue-app",
-  "version": "0.0.0",
+  "name": "vcom-video-player",
+  "version": "0.0.1",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/yy-lib.umd.js",
+  "module": "./dist/yy-lib.es.js",
+  "style": "./dist/style.css",
+  "exports": {
+    ".": {
+      "import": "./dist/yy-lib.es.js",
+      "require": "./dist/yy-lib.umd.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -9,6 +21,7 @@
   "dependencies": {
     "sass": "^1.36.0",
     "vant": "^3.1.5",
+    "vcom-video-player": "^0.0.1",
     "video.js": "^7.14.3",
     "videojs-landscape-fullscreen": "^11.1.0",
     "vite-plugin-style-import": "^1.1.1",

@@ -2,7 +2,7 @@
   <div>
     <video
       controls
-      preload="auto"
+      preload="none"
       webkit-playsinline="true"
       playsinline="true"
       data-setup='{ "playbackRates": [1, 1.5, 2] }'
@@ -36,6 +36,7 @@ export default {
     }
   },
   mounted () {
+    console.log('ooooo', o9n);
     const that = this;
     this.player = videojs(
       this.$refs.videoPlayer,
@@ -62,6 +63,7 @@ export default {
         });
         this.on("playing", function () {
           console.log("视频播放中")
+          // that.test();
         });
         this.on("pause", function () {
           console.log(that);
@@ -98,59 +100,51 @@ export default {
       fullscreen: {
         enterOnRotate: true,
         alwaysInLandscapeMode: true,
-        iOS: true
+        iOS: false
       }
     })
-    this.player.requestFullscreen();
-    document.querySelector('.vjs-big-play-button').addEventListener('click', this.player.requestFullscreen)
+    // this.player.ready(function(){
+    //     var myPlayer = this;
+    //     myPlayer.play(); // 自动播放
+    // });
     this.newButtonToggle()
   },
   methods: {
     newButtonToggle () {
-      var button = videojs.getComponent('Button')
-      var closeButton = videojs.extend(button, {
-        constructor: function () {
-          button.apply(this, arguments)
-          this.controlText('AA')
-          this.addClass('vjs-icon-circle');
-          this.addClass('vjs-btn-test');
-        },
-        handleClick: function () {
-          alert('hehe')
-        },
-      })
-      // var Component = videojs.getComponent('Component');
-      // var myComponent = new Component(this.player);
-      // var myButton = myComponent.addChild('MyButton', {
-      //   text: 'Press Me',
-      //   buttonChildExample: {
-      //     buttonChildOption: false
-      //   }
-      // });
-      videojs.registerComponent('closeButton', closeButton)
-      videojs.registerComponent('QualityMenuItem', QualityMenuItem);
-      videojs.registerComponent('QualityMenuItemChild', QualityMenuItemChild);
+      // var button = videojs.getComponent('Button')
+      // var closeButton = videojs.extend(button, {
+      //   constructor: function () {
+      //     button.apply(this, arguments)
+      //     this.controlText('AA')
+      //     this.addClass('vjs-icon-circle');
+      //     this.addClass('vjs-btn-test');
+      //   },
+      //   handleClick: function () {
+      //     alert('hehe')
+      //   },
+      // })
+
+      // videojs.registerComponent('closeButton', closeButton)
+      // videojs.registerComponent('QualityMenuItem', QualityMenuItem);
+      // videojs.registerComponent('QualityMenuItemChild', QualityMenuItemChild);
       // videojs.registerComponent('myButton', myButton);
       // this.player.addChild('closeButton', {});
       // this.player.getChild('ControlBar').addChild('closeButton', {})
-      this.player.addChild('closeButton', {})
+      // this.player.addChild('closeButton', {})
 
-      videojs
-        .getComponent('SettingMenuButton')
-        .prototype.options_.entries.push('QualityMenuItem');
+      // 隐藏掉 画中画
+      this.player.getChild('ControlBar').removeChild('pictureInPictureToggle')
+      // videojs
+      //   .getComponent('SettingMenuButton')
+      //   .prototype.options_.entries.push('QualityMenuItem');
 
-
-
-      // player.findChild('SettingMenuButton')[0].component.handleClick();
-      // this.player.title('Set Titlte');
-      // const { component: SettingMenu } = this.player.getChild('SettingMenu');
-      // SettingMenu.addChild(
-      //   new CustomMenuItem(player, {
-      //     menu: SettingMenu
-      //     // optionsSettingMenu
-      //   })
-      // );
     },
+    test () {
+      this.$nextTick(() => {
+        this.player.requestFullscreen();
+        window.screen.orientation.lock("landscape")
+      })
+    }
   },
   beforeDestroy () {
     if (this.player) {

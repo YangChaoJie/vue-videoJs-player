@@ -1,17 +1,23 @@
 <template>
   <div id="app">
     <div>
-      <video-player :options="videoOptions" />
+      <!-- <video-player :options="videoOptions" /> -->
       <!-- <video-player-2></video-player-2> -->
-      <!-- <audio-player :options="audioOptions"></audio-player> -->
+      <audio-player :options="audioOptions"></audio-player>
     </div>
   </div>
 </template>
 
 <script>
-import VideoPlayer from './components/video.vue'
-import VideoPlayer2 from './components/video2.vue'
-import AudioPlayer from './components/audio.vue'
+import 'video.js/dist/video-js.css'
+// import './style.css'
+// import './components/audio/audio.scss'
+// import 'vcom-video-player/dist/style.css'
+import { videoPlayer } from 'vcom-video-player'
+// import VideoPlayer from './components/video.vue'
+// import VideoPlayer2 from './components/video2.vue'
+import audioPlayer  from './components/audio.vue'
+// import { audioPlayer } from 'vcom-video-player'
 // 判断是否为公众号模拟器环境
 const isWechat = () => {
   return String(navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) === "micromessenger";
@@ -28,16 +34,16 @@ const getUrlParam = (name) => {
 }
 export default {
   components: {
-    VideoPlayer,
-    VideoPlayer2,
-    AudioPlayer
+    videoPlayer,
+    // VideoPlayer2,
+    audioPlayer
   },
   data () {
     return {
       videoOptions: {
         code: '',
-        autoplay: true,
         controls: true,
+        autoplay: false,
         muted: false,
         controlBar: {
           // fullscreenToggle: true
@@ -45,13 +51,12 @@ export default {
         sources: [
           {
             src: 'https://rsszw.czbanbantong.com//localpath/servicecenter/20210401/20210401130614879709195799766/%E3%80%90English_Singsing%E3%80%91Phonics_Rap_Ah264_720x576_800k.mp4',
-            //'http://192.168.144.53:3000/480P_megaproject.mp4',
-            // 'http://ivi.bupt.edu.cn/hls/cctv1.m3u8',
             type: 'video/mp4',
           },
         ],
       },
       audioOptions: {
+        fullScreen: true,
         sources: [
           {
             src: 'https://storezw.czbanbantong.com:443/docum/rms/nrms/20210713/1626158362062_rcode.mp3',
@@ -88,7 +93,6 @@ export default {
 					}
 				}
 			}
-  },
+  }
 }
 </script>
-
