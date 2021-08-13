@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import './audio/audio.scss'
 export default {
   data () {
     return {
@@ -65,6 +66,9 @@ export default {
     hanldlePause () {
       this.state = '2';
     },
+    hanldlePlay () {
+      this.state = '1';
+    },
     // 上一曲
     onPre () {
       this.$emit('onPre');
@@ -92,50 +96,4 @@ export default {
 </script>
 
 <style lang="scss">
-.audio-control-bar {
-  width: 100vw;
-  height: 92px;
-  padding: 0 16px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  .left,
-  .right {
-    text-align: center;
-    img {
-      width: 24px;
-      height: 24px;
-    }
-    div {
-      opacity: 1;
-      font-size: 12px;
-      font-family: PingFangSC, PingFangSC-Regular;
-      font-weight: 400;
-      text-align: center;
-      color: rgba(0, 0, 0, 0.45);
-      line-height: 6px;
-    }
-  }
-  .center {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 188px;
-    .left,
-    .right {
-      img {
-        width: 40px;
-        height: 40px;
-      }
-    }
-    .center {
-      img {
-        width: 60px;
-        height: 60px;
-      }
-      width: 60px;
-    }
-  }
-}
 </style>

@@ -1,9 +1,14 @@
-import { createApp } from 'vue'
+// import { createApp } from 'vue'
+// import App from './App.vue'
+import Vue from 'vue'
 import App from './App.vue'
-import { Popup, Dialog  } from 'vant';
 // import '../dist/yy-lib.es.js';
 // import '../dist/yy-lib.umd.js';
-const app = createApp(App);
-app.use(Popup);
-app.use(Dialog);
-app.mount('#app')
+// const app = createApp(App);
+// Vue.use(Popup);
+// Vue.use(Dialog);
+
+new Vue({
+  render: h => h(App)
+}).$mount('#app')
+

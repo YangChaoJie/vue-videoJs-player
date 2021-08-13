@@ -43,12 +43,13 @@
 <script>
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
-import './SettingMenu/SettingMenuButton';
 import './video.scss'
 import './audio/audio.scss'
 import './audio/audio.js'
 import AudioControlBar from './audioControlBar.vue'
-
+import { Popup  } from 'vant';
+import Vue from 'vue'
+Vue.use(Popup);
 const DEFAULT_EVENTS = [
   'loadeddata',
   'canplay',
@@ -125,7 +126,14 @@ export default {
               this.onPlayEnd();
               break;
             case 'pause':
-              this.doPause();  
+              this.doPause(); 
+              break;
+            case 'play':
+              this.doPlay();
+              break;
+            case 'error':
+              this.onPlayError();
+              break;  
             default:
               break;
           }
@@ -160,11 +168,18 @@ export default {
     setConfigStyle () {
       console.log('aa', this.audioOptions);
       if (this.audioOptions.fullScreen && this.audioOptions.fullScreen === true) {
-        console.log('ss');
         document.getElementsByClassName('vjs-tech')[0].style.backgroundSize = '100vw calc(100vh - 100px)';
-        document.getElementsByClassName('vjs-tech')[0].style.backgroundImage = "url(src/assets/player/fullScreen_bg.png)";
+        document.getElementsByClassName('vjs-tech')[0].style.backgroundImage = `url(${this.getSrc('fullScreen_bg')})`;
         document.getElementsByClassName('video-js')[0].style.height = 'calc(100vh - 100px)';
+      } else {
+        document.getElementsByClassName('vjs-tech')[0].style.backgroundSize = '100vw 200px';
+        document.getElementsByClassName('vjs-tech')[0].style.backgroundImage = `url(${this.getSrc('music_bg')})`;
       }
+    },
+    getSrc (name) {
+      const path = `/src/assets/player/${name}.png`;
+      const modules = import.meta.globEager("/src/assets/player/*.png");
+      return modules[path].default;
     },
     // 点击播放
     onPlay (state) {
@@ -176,6 +191,9 @@ export default {
     },
     doPause () {
       this.$refs.audioControlBar.hanldlePause();
+    },
+    doPlay () {
+      this.$refs.audioControlBar.hanldlePlay();
     },
     switchMode (state) {
       console.log('iii', state);
@@ -218,6 +236,10 @@ export default {
       }
       this.currentPlay();
     },
+    onPlayError () {
+      // 修改错误 文案提示
+      document.getElementsByClassName('vjs-modal-dialog-content')[0].textContent = '音频资源加载失败';
+    },
     changeAudioName (name) {
       const tag = document.getElementsByClassName('vjs-ap-track-truncated')[0];
       console.log('-----', tag.textContent);
@@ -247,22 +269,5 @@ export default {
 </script>
 
 <style lang="scss">
-.vcom-audio {
-  .header {
-    font-size: 18px;
-    font-family: PingFangSC, PingFangSC-Medium;
-    font-weight: bold;
-    text-align: left;
-    color: rgba(0, 0, 0, 0.85);
-    line-height: 66px;
-    text-align: center;
-    height: 66px;
-  }
-  .list {
-    padding: 5px 20px;
-  }
-  .active {
-    color: #0c90f8;
-  }
-}
+
 </style>

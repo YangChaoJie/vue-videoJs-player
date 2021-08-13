@@ -1,16 +1,15 @@
 <template>
   <div id="app">
     <div>
-      <video-player :options="videoOptions" />
-      <!-- <video-player-2></video-player-2> -->
-      <!-- <audio-player
+      <!-- <video-player :options="videoOptions" /> -->
+      <audio-player
         @timeupdate="onTimeupdate"
         :options="audioOptions"
       >
           <template v-slot:middle v-if="audioOptions.fullScreen === false">
             <span>Here might be a page title</span>
           </template>
-      </audio-player> -->
+      </audio-player>
     </div>
   </div>
 </template>
@@ -20,9 +19,8 @@ import 'video.js/dist/video-js.css'
 // import './style.css'
 // import './components/audio/audio.scss'
 // import 'vcom-video-player/dist/style.css'
-// import { videoPlayer } from 'vcom-video-player'
-import videoPlayer from './components/video.vue'
-// import VideoPlayer2 from './components/video2.vue'
+import { videoPlayer } from 'vcom-video-player'
+// import videoPlayer from './components/video.vue'
 import audioPlayer from './components/audio.vue'
 // import { audioPlayer } from 'vcom-video-player'
 // 判断是否为公众号模拟器环境
@@ -42,7 +40,6 @@ const getUrlParam = (name) => {
 export default {
   components: {
     videoPlayer,
-    // VideoPlayer2,
     audioPlayer
   },
   data () {
@@ -64,7 +61,7 @@ export default {
         ],
       },
       audioOptions: {
-        fullScreen: true,
+        fullScreen: false,
         sources: [
           {
             src: 'https://storezw.czbanbantong.com:443/docum/rms/nrms/20210713/1626158362062_rcode.mp3',

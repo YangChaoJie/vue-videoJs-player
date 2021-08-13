@@ -19,6 +19,71 @@ body {
   margin: 0;
 }
 .vcom-audio {
+  .header {
+    font-size: 18px;
+    font-family: PingFangSC, PingFangSC-Medium;
+    font-weight: bold;
+    text-align: left;
+    color: rgba(0, 0, 0, 0.85);
+    line-height: 66px;
+    text-align: center;
+    height: 66px;
+  }
+  .list {
+    padding: 5px 20px;
+  }
+  .active {
+    color: #0c90f8;
+  }
+}
+.audio-control-bar {
+  width: 100vw;
+  height: 92px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .left,
+  .right {
+    text-align: center;
+    img {
+      width: 24px;
+      height: 24px;
+    }
+    div {
+      opacity: 1;
+      font-size: 12px;
+      font-family: PingFangSC, PingFangSC-Regular;
+      font-weight: 400;
+      text-align: center;
+      color: rgba(0, 0, 0, 0.45);
+      line-height: 6px;
+    }
+  }
+  .center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 188px;
+    .left,
+    .right {
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    .center {
+      img {
+        width: 60px;
+        height: 60px;
+      }
+      width: 60px;
+    }
+  }
+}
+
+.vcom-audio {
   .video-js {
     font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
 
@@ -50,7 +115,7 @@ body {
     }
   }
   .video-js .vjs-tech {
-    background-image: url(/music_bg.png);
+    // background-image: url(/music_bg.png);
     background-size: 100vw 200px;
     background-repeat: no-repeat;
   }
