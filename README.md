@@ -2,7 +2,33 @@
 videoJs custom audio and video skin and component with vue&&vite
 
 
-## audio
+## install
+```
+yarn add vcom-video-player
+```
+
+### How To Use
+
+```
+import { videoPlayer, audioPlayer } from 'vcom-video-player'
+
+<template>
+  <div id="app">
+    <div>
+      <video-player :options="videoOptions" />
+      <audio-player
+        @timeupdate="onTimeupdate"
+        :options="audioOptions"
+      >
+          <template v-slot:middle v-if="audioOptions.fullScreen === false">
+            <span>Here might be a page title</span>
+          </template>
+      </audio-player>
+    </div>
+  </div>
+</template>
+```
+#### audio config
 ```
  audioOptions: {
         // poster: './music_bg.png',
@@ -34,7 +60,7 @@ videoJs custom audio and video skin and component with vue&&vite
     });  
 ```
 
-### video
+#### video config
 ```
  videoOptions: {
         code: '',
@@ -60,3 +86,22 @@ videoJs custom audio and video skin and component with vue&&vite
       this.options
  )     
 ```
+
+#### 更多配置 可以参考 videojs 官网配置
+[videojs官网](https://videojs.com/)
+#### demo dislpay
+
+![](./screenImg/1.png)
+
+<br>
+<br>
+
+![](./screenImg/2.png)
+
+<br>
+<br>
+
+![](./screenImg/3.png)
+
+<br>
+<br>
