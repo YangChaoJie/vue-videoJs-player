@@ -1,8 +1,7 @@
 body {
-  display: block;
-  margin: 0;
+    display: block;
+    margin: 0px;
 }
-
 /*
   Player Skin Designer for Video.js
   http://videojs.com
@@ -27,20 +26,20 @@ $primary-foreground-color: #fff; // #fff default
 // The default color of control backgrounds is mostly black but with a little
 // bit of blue so it can still be seen on all-black video frames, which are common.
 // Try changing to #900
-$primary-background-color: #2b333f;  // #2B333F default
+$primary-background-color: #2B333F;  // #2B333F default
 
 // Try changing to true
 $center-big-play-button: false; // true default
 
 .video-js {
-  width: 100%;
-  height: 300px;
-  /* The main font color changes the ICON COLORS as well as the text */
-  color: $primary-foreground-color;
   /* The base font size controls the size of everything, not just text.
      All dimensions use em-based sizes so that the scale along with the font size.
      Try increasing it to 15px and see what happens. */
   font-size: 10px;
+  width: 100%;
+  height: 300px;
+  /* The main font color changes the ICON COLORS as well as the text */
+  color: $primary-foreground-color;
 }
 
 /* The "Big Play Button" is the play button that shows before the video plays.
@@ -48,35 +47,38 @@ $center-big-play-button: false; // true default
    of the button is the center, but there is trend towards moving it to a corner
    where it gets out of the way of valuable content in the poster image.*/
 .vjs-default-skin .vjs-big-play-button {
-  /* We're using SCSS vars here because the values are used in multiple places.
-     Now that font size is set, the following em values will be a multiple of the
-     new font size. If the font-size is 3em (30px), then setting any of
-     the following values to 3em would equal 30px. 3 * font-size. */
-  $big-play-width: 3em;
-  /* 1.5em = 45px default */
-  $big-play-height: 1.5em;
-  width: $big-play-width;
-  height: $big-play-height;
   /* The font size is what makes the big play button...big. 
      All width/height values use ems, which are a multiple of the font size.
      If the .video-js font-size is 10px, then 3em equals 30px.*/
   font-size: 3em;
+
+  /* We're using SCSS vars here because the values are used in multiple places.
+     Now that font size is set, the following em values will be a multiple of the
+     new font size. If the font-size is 3em (30px), then setting any of
+     the following values to 3em would equal 30px. 3 * font-size. */
+  $big-play-width: 3em; 
+  /* 1.5em = 45px default */
+  $big-play-height: 1.5em;
+
   line-height: $big-play-height;
+  height: $big-play-height;
+  width: $big-play-width;
+
   /* 0.06666em = 2px default */
-  border: .06666em solid $primary-foreground-color;
+  border: 0.06666em solid $primary-foreground-color;
   /* 0.3em = 9px default */
-  border-radius: .3em;
+  border-radius: 0.3em;
 
   @if $center-big-play-button {
-    top: 50%;
     /* Align center */
     left: 50%;
-    margin-top: -($big-play-height / 2);
+    top: 50%;
     margin-left: -($big-play-width / 2);
+    margin-top: -($big-play-height / 2);   
   } @else {
-    top: .5em;
     /* Align top left. 0.5em = 15px default */
-    left: .5em;
+    left: 0.5em;
+    top: 0.5em;
   }
 }
 
@@ -88,7 +90,7 @@ $center-big-play-button: false; // true default
   /* IE8 - has no alpha support */
   background-color: $primary-background-color;
   /* Opacity: 1.0 = 100%, 0.0 = 0% */
-  background-color: rgba($primary-background-color, .7);
+  background-color: rgba($primary-background-color, 0.7);
 }
 
 // Make a slightly lighter version of the main background
@@ -98,7 +100,7 @@ $slider-bg-color: lighten($primary-background-color, 33%);
 /* Slider - used for Volume bar and Progress bar */
 .video-js .vjs-slider {
   background-color: $slider-bg-color;
-  background-color: rgba($slider-bg-color, .5);
+  background-color: rgba($slider-bg-color, 0.5);
 }
 
 /* The slider bar color is used for the progress bar and the volume bar
@@ -114,7 +116,7 @@ $slider-bg-color: lighten($primary-background-color, 33%);
   /* For IE8 we'll lighten the color */
   background: lighten($slider-bg-color, 25%);
   /* Otherwise we'll rely on stacked opacities */
-  background: rgba($slider-bg-color, .5);
+  background: rgba($slider-bg-color, 0.5);
 }
 
 /* The load progress bar also has internal divs that represent
@@ -123,7 +125,7 @@ $slider-bg-color: lighten($primary-background-color, 33%);
   /* For IE8 we'll lighten the color */
   background: lighten($slider-bg-color, 50%);
   /* Otherwise we'll rely on stacked opacities */
-  background: rgba($slider-bg-color, .75);
+  background: rgba($slider-bg-color, 0.75);
 }
 
 .vjs-control-text0 {
@@ -131,7 +133,35 @@ $slider-bg-color: lighten($primary-background-color, 33%);
 }
 .vjs-btn-test {
   position: absolute !important;
-  top: 10%;
   right: 0;
   height: 80% !important;
+  top: 10%;
+}
+.vjs-big-play-button {
+  background-color: transparent !important;
+  height: 1.8em !important;
+  top: 50% !important;
+  left: 50% !important;
+  // right: 0 !important;
+  // bottom: 0 !important;
+  background-image: url('../assets/player/play_btn.png') !important;
+  background-repeat: no-repeat !important;
+  background-size: 64px !important;
+  background-position: 50% 50% !important;
+  border: none !important; // @stylint ignore
+  box-shadow: none !important; // @stylint ignore
+  &:before {
+    content: "" !important;
+    display: none !important;
+  }
+  &:hover {
+    background-color: transparent !important;
+    opacity: .7 !important;
+  }
+  .vjs-icon-placeholder {
+  &:before {
+    content: "" !important;
+    display: none !important;
+  }
+}
 }
