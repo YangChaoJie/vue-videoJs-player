@@ -1,9 +1,8 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+  <div>
+    <div>
       <!-- <video-player :options="videoOptions" /> -->
-      <!-- <audio-player
+      <audio-player
         @timeupdate="onTimeupdate"
         :options="audioOptions"
       >
@@ -11,8 +10,9 @@
             <span>Here might be a page title</span>
           </template>
       </audio-player>
-    </div> -->
-  <!-- </div> -->
+    </div>
+    <button @click="onTest">asfasfasf</button>
+  </div>
 </template>
 
 <script>
@@ -20,7 +20,7 @@ import 'video.js/dist/video-js.css'
 import Vue from 'vue'
 import { videoPlayer } from 'vcom-video-player'
 // import videoPlayer from './components/video.vue'
-import audioPlayer from './components/audio.vue'
+import audioPlayer from '../../components/audio.vue'
 // import { audioPlayer } from 'vcom-video-player'
 // 判断是否为公众号模拟器环境
 const isWechat = () => {
@@ -83,9 +83,9 @@ export default {
     getWxCode () {
       if (isWechat()) {
         let appid = "wxa16190e252fb8b16"; //为测试号id
-        let code = getUrlParam("code"); //是否存在code
-        let local = 'https://zw.czbanbantong.com/'
-        //  window.location.href + '?url=henan';
+        let code = getUrlParam("code"); //是否存在co？
+        let local = window.location.origin + '/play?refer=zw';
+        //  
         // 'https://www.baidu.com'
         // window.location.href + '?url=henan'; // 配置回调地址
         // let local = 'http://h5.x*****o.com/'		//测试路径

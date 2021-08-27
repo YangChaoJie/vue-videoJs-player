@@ -83,8 +83,14 @@ export default {
           ...this.defaultConfig,
           ...val
         };
-        console.log('audioOptions', this.audioOptions);
+        if (this.player && this.player !== null) {
+          const videoObj = this.options.sources[0];
+          this.player.src({ type: videoObj.type, src: videoObj.src });
+          this.player.pause();
+          this.changeAudioName(videoObj.name);
+        }
       },
+      deep: true,
       immediate: true
     }
   },
