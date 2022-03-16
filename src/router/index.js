@@ -21,9 +21,9 @@ export default new Router({
       component: () => import('../pages/play/index.vue')
     },
     {
-      path: '/play',
-      name: 'play',
-      component: () => import('../pages/play/index.vue')
+      path: '/cpa',
+      name: 'cpa',
+      component: () => import('../pages/compositionApi/index.vue')
     }
   ],
 })

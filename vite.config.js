@@ -5,6 +5,12 @@ import styleImport from 'vite-plugin-style-import';
 const path = require('path');
 // https://vitejs.dev/config/
 export default defineConfig({
+  optimizeDeps: {
+    exclude: ['vue-demi']
+  },
+  alias: {
+    '@vue/composition-api/dist/vue-composition-api.esm.js': '@vue/composition-api/dist/vue-composition-api.mjs'
+  },
   plugins: [
     // vue(),
     createVuePlugin(),
