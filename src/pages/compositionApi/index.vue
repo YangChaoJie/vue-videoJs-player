@@ -1,6 +1,7 @@
 <template>
-  <div>{{a}} {{data.message}}
-       <div>{{ bar }} {{foo}} </div>
+  <div>
+    {{ a }} {{ data.message }}
+    <div>{{ bar }} {{ foo }}</div>
   </div>
   <!-- <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" /> -->
 </template>
@@ -8,7 +9,7 @@
 <script lang="js">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import { defineComponent , ref, reactive, toRefs} from 'vue-demi'
+import { defineComponent, ref, reactive, toRefs } from 'vue-demi'
 // import Hello from './components/Hello.vue'
 // import Test from "./components/test.vue"
 function useFeatureX() {
@@ -20,11 +21,11 @@ function useFeatureX() {
   // 返回时转换为ref
   return toRefs(state);
 }
-export default defineComponent ({
+export default defineComponent({
   name: 'HelloWorld',
   components: {
   },
-  setup () {
+  setup() {
     const a = ref(1);
     const data = reactive({
       message: '阿瑞'

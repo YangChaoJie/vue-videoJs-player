@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import './audio/audio.scss'
+import '../audio.scss'
 export default {
-  data () {
+  data() {
     return {
       switchOrderBtn: '../assets/player/player_switch.png',
       switchLoopBtn: '../assets/player/player_switch.png',
@@ -38,12 +38,12 @@ export default {
     }
   },
   methods: {
-    getSrc (name) {
+    getSrc(name) {
       const path = `/src/assets/player/${name}.png`;
       const modules = import.meta.globEager("/src/assets/player/*.png");
       return modules[path].default;
     },
-    switchMode () {
+    switchMode() {
       this.$emit('switchMode', this.mode);
       if (this.mode === '1') {
         this.mode = '2';
@@ -51,11 +51,11 @@ export default {
         this.mode = '1';
       }
     },
-    showList () {
+    showList() {
       this.$emit('showList');
     },
     // 播放
-    onPlaying () {
+    onPlaying() {
       if (this.state === '1') {
         this.state = '2';
       } else {
@@ -63,32 +63,32 @@ export default {
       }
       this.$emit('onPlay', this.state);
     },
-    hanldlePause () {
+    hanldlePause() {
       this.state = '2';
     },
-    hanldlePlay () {
+    hanldlePlay() {
       this.state = '1';
     },
     // 上一曲
-    onPre () {
+    onPre() {
       this.$emit('onPre');
     },
     // 下一曲
-    onNext () {
+    onNext() {
       this.$emit('onNext');
     },
-    onShowPlayList () {
+    onShowPlayList() {
       this.$emit('showList');
     }
   },
   computed: {
-    getModeName () {
+    getModeName() {
       return this.mode === '1' ? '顺序播放' : '循环播放'
     },
-    getModeImg () {
+    getModeImg() {
       return this.mode === '1' ? this.getSrc('player_switch') : this.getSrc('player_loop')
     },
-    getPlayImg () {
+    getPlayImg() {
       return this.state === '1' ? this.getSrc('player_playing') : this.getSrc('player_play')
     }
   }

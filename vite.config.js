@@ -8,8 +8,11 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['vue-demi']
   },
-  alias: {
-    '@vue/composition-api/dist/vue-composition-api.esm.js': '@vue/composition-api/dist/vue-composition-api.mjs'
+  resolve: {
+    alias: {
+      '@vue/composition-api/dist/vue-composition-api.esm.js': '@vue/composition-api/dist/vue-composition-api.mjs',
+      "@": path.resolve(__dirname, "src")
+    }
   },
   plugins: [
     // vue(),

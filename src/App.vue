@@ -2,8 +2,8 @@
   <div id="app">
     <router-view />
   </div>
-      <!-- <video-player :options="videoOptions" /> -->
-      <!-- <audio-player
+  <!-- <video-player :options="videoOptions" /> -->
+  <!-- <audio-player
         @timeupdate="onTimeupdate"
         :options="audioOptions"
       >
@@ -11,7 +11,7 @@
             <span>Here might be a page title</span>
           </template>
       </audio-player>
-    </div> -->
+  </div>-->
   <!-- </div> -->
 </template>
 
@@ -20,7 +20,7 @@ import 'video.js/dist/video-js.css'
 import Vue from 'vue'
 import { videoPlayer } from 'vcom-video-player'
 // import videoPlayer from './components/video.vue'
-import audioPlayer from './components/audio.vue'
+import audioPlayer from './components/audio/audio.vue'
 // import { audioPlayer } from 'vcom-video-player'
 // 判断是否为公众号模拟器环境
 const isWechat = () => {
@@ -41,7 +41,7 @@ export default {
     videoPlayer,
     audioPlayer
   },
-  data () {
+  data() {
     return {
       videoOptions: {
         code: '',
@@ -76,11 +76,11 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     this.getWxCode();
   },
   methods: {
-    getWxCode () {
+    getWxCode() {
       if (isWechat()) {
         let appid = "wxa16190e252fb8b16"; //为测试号id
         let code = getUrlParam("code"); //是否存在code
@@ -101,7 +101,7 @@ export default {
         }
       }
     },
-    onTimeupdate (player) {
+    onTimeupdate(player) {
       console.log('监听事件', player.currentTime(), player.duration());
       if (Math.ceil(player.currentTime()) >= 30) {
         this.$dialog.alert({
@@ -111,13 +111,13 @@ export default {
         this.$root.$emit('audioPause');
       }
     },
-    onTest () {
+    onTest() {
       const source = [
-            {
-            src: 'https://rsszw.czbanbantong.com//localpath/servicecenter/20150821/20150821074214500203966723014/%E5%84%BF%E6%AD%8C%E6%AC%A3%E8%B5%8F%EF%BC%9A%E5%BF%AB%E5%BF%AB%E4%B9%90%E4%B9%90%E4%B8%8A%E5%AD%A6%E6%A0%A1_128k.mp3',
-            type: 'audio/mp3',
-            name: '测试音频2'
-          }
+        {
+          src: 'https://rsszw.czbanbantong.com//localpath/servicecenter/20150821/20150821074214500203966723014/%E5%84%BF%E6%AD%8C%E6%AC%A3%E8%B5%8F%EF%BC%9A%E5%BF%AB%E5%BF%AB%E4%B9%90%E4%B9%90%E4%B8%8A%E5%AD%A6%E6%A0%A1_128k.mp3',
+          type: 'audio/mp3',
+          name: '测试音频2'
+        }
       ]
       Vue.set(this.audioOptions, 'sources', source)
     }
