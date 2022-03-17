@@ -2,7 +2,6 @@
   <div id="app">
     <router-view />
   </div>
-      <!-- <video-player :options="videoOptions" /> -->
       <!-- <audio-player
         @timeupdate="onTimeupdate"
         :options="audioOptions"
@@ -84,11 +83,8 @@ export default {
       if (isWechat()) {
         let appid = "wxa16190e252fb8b16"; //为测试号id
         let code = getUrlParam("code"); //是否存在code
-        let local = 'https://zw.czbanbantong.com/'
-        //  window.location.href + '?url=henan';
-        // 'https://www.baidu.com'
-        // window.location.href + '?url=henan'; // 配置回调地址
-        // let local = 'http://h5.x*****o.com/'		//测试路径
+        let local = `${window.location.href}home`
+        // 'https://zw.czbanbantong.com/'
         if (code == null || code === "") {
           //不存在就打开上面的地址进行授权
           window.location.href =
@@ -119,6 +115,8 @@ export default {
             name: '测试音频2'
           }
       ]
+      // https://ncp.czbanbantong.com/nrmsui/share/share/auth?rcode=1464478403133473&source=teacher&resType=filed&sharePath=play&refer=https://zw.czbanbantong.com 
+      // https://ncp.czbanbantong.com/nrmsui/share/share/'https://zw.czbanbantong.com'/nrmsui/share/share/play?rcode=1464478403133473&source=teacher&resType=filed&sharePath=play&refer=%27https%3A%2F%2Fzw.czbanbantong.com%27
       Vue.set(this.audioOptions, 'sources', source)
     }
   }

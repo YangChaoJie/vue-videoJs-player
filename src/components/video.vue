@@ -105,6 +105,10 @@ export default {
     //     myPlayer.play(); // 自动播放
     // });
     this.newButtonToggle()
+    document.addEventListener('pause', function () {
+      console.log('hahahahah');
+      alert('1231244');
+    });
   },
   methods: {
     newButtonToggle () {

@@ -1,17 +1,20 @@
 <template>
   <div>
-    <div>
+    <div class="tt">
       <!-- <video-player :options="videoOptions" /> -->
-      <audio-player
+      <!-- <audio-player
         @timeupdate="onTimeupdate"
         :options="audioOptions"
       >
           <template v-slot:middle v-if="audioOptions.fullScreen === false">
             <span>Here might be a page title</span>
           </template>
-      </audio-player>
+      </audio-player> -->
     </div>
-    <button @click="onTest">asfasfasf</button>
+    <van-slider v-model="value" @change="onChange" />
+     <iframe name="iframe" style="width: 1000px;" src="http://192.168.144.53:4000/home" width="1000" height="800" frameborder="0"></iframe>
+    <!-- <button @click="onTest">这是回调页面</button>
+    <div @click="onTest"></div> -->
   </div>
 </template>
 
@@ -21,6 +24,8 @@ import Vue from 'vue'
 import { videoPlayer } from 'vcom-video-player'
 // import videoPlayer from './components/video.vue'
 import audioPlayer from '../../components/audio.vue'
+import { Slider } from 'vant';
+Vue.use(Slider);
 // import { audioPlayer } from 'vcom-video-player'
 // 判断是否为公众号模拟器环境
 const isWechat = () => {
@@ -43,6 +48,7 @@ export default {
   },
   data () {
     return {
+      value: 20,
       videoOptions: {
         code: '',
         controls: true,
@@ -77,7 +83,23 @@ export default {
     }
   },
   mounted () {
-    this.getWxCode();
+    // this.getWxCode();
+    // document.addEventListener('pause', function () {
+    //   console.log('hahahahah');
+    //   alert('hhhh');
+    // });
+
+    // document.addEventListener("visibilitychange", () => {
+    //   alert('hhhh1234154');
+    //   if (document.hidden) {
+    //     // 页面被挂起
+    //   }
+    //   else {
+    //     // 页面呼出
+    //   }
+    // });
+    // alert(`34334------${this.$route.query.code}`)
+    // window.location.href = `https://zw.czbanbantong.com/index?code=${this.$route.query.code}`;
   },
   methods: {
     getWxCode () {
@@ -112,20 +134,24 @@ export default {
       }
     },
     onTest () {
-      const source = [
-            {
-            src: 'https://rsszw.czbanbantong.com//localpath/servicecenter/20150821/20150821074214500203966723014/%E5%84%BF%E6%AD%8C%E6%AC%A3%E8%B5%8F%EF%BC%9A%E5%BF%AB%E5%BF%AB%E4%B9%90%E4%B9%90%E4%B8%8A%E5%AD%A6%E6%A0%A1_128k.mp3',
-            type: 'audio/mp3',
-            name: '测试音频2'
-          }
-      ]
-      Vue.set(this.audioOptions, 'sources', source)
+      // const source = [
+      //       {
+      //       src: 'https://rsszw.czbanbantong.com//localpath/servicecenter/20150821/20150821074214500203966723014/%E5%84%BF%E6%AD%8C%E6%AC%A3%E8%B5%8F%EF%BC%9A%E5%BF%AB%E5%BF%AB%E4%B9%90%E4%B9%90%E4%B8%8A%E5%AD%A6%E6%A0%A1_128k.mp3',
+      //       type: 'audio/mp3',
+      //       name: '测试音频2'
+      //     }
+      // ]
+      // Vue.set(this.audioOptions, 'sources', source)
+      window.location.href = 'https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzA3NTY3ODg2Mg==#wechat_redirect';
     }
   }
 }
 </script>
 
 <style lang="scss">
+.tt {
+  height: 60px;
+}
 .vcom-video {
   .video-js {
     height: 230px;
