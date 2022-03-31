@@ -23,7 +23,7 @@ import 'video.js/dist/video-js.css'
 import Vue from 'vue'
 // import { videoPlayer } from 'vcom-video-player'
 // import videoPlayer from './components/video.vue'
-import audioPlayer from '@/components/audio/index.vue'
+import audioPlayer from '@/components/audio/audio.vue'
 import { Slider } from 'vant';
 Vue.use(Slider);
 // import { audioPlayer } from 'vcom-video-player'
