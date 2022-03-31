@@ -1,9 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { Popup, Dialog  } from 'vant';
-// import '../dist/yy-lib.es.js';
-// import '../dist/yy-lib.umd.js';
+import { router } from './router/index';
 const app = createApp(App);
-app.use(Popup);
-app.use(Dialog);
+app.use(router)
 app.mount('#app')

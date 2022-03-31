@@ -20,17 +20,20 @@
   },
   "dependencies": {
     "sass": "^1.36.0",
-    "vant": "^3.1.5",
+    "vant": "^3.4.7",
     "vcom-video-player": "^0.0.1",
     "video.js": "^7.14.3",
     "videojs-landscape-fullscreen": "^11.1.0",
-    "vite-plugin-style-import": "^1.1.1",
-    "vue": "^3.0.5",
+    "vue": "^3.2.31",
+    "vue-demi": "^0.12.5",
+    "vue-router": "^4.0.14",
+    "vue-use": "^0.2.0",
     "xgplayer": "^2.26.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.3.0",
     "@vue/compiler-sfc": "^3.0.5",
-    "vite": "^2.4.4"
+    "vite": "^2.9.0",
+    "vite-plugin-style-import": "1.4.1"
   }
 }

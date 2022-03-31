@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import styleImport from 'vite-plugin-style-import';
+import styleImport, { VantResolve } from 'vite-plugin-style-import';
 const path = require('path');
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,19 +13,24 @@ export default defineConfig({
   plugins: [
     vue(),
     styleImport({
-      libs: [
-        {
-          libraryName: 'vant',
-          esModule: true,
-          resolveStyle: (name) => `vant/es/${name}/style`,
-        },
-        {
-          libraryName: 'vcom-video-player',
-          esModule: true,
-          resolveStyle: () => `vcom-video-player/dist/style.css`,
-        },
-      ]
-    })],
+      resolves: [VantResolve()],
+    }),
+    // styleImport({
+      // libs: [
+      //   {
+      //     libraryName: 'vant',
+      //     esModule: true,
+      //     resolveStyle: (name) => `vant/es/${name}/style`,
+      //   },
+      //   {
+      //     libraryName: 'vcom-video-player',
+      //     esModule: true,
+      //     resolveStyle: () => `vcom-video-player/dist/style.css`,
+      //   },
+      // ],
+    //   resolves: [VantResolve()]
+    // })
+  ],
    // 在文件中添加以下内容
   server: {
     // host: 'y.vcom.com',

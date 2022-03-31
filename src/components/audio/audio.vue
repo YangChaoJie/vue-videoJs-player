@@ -9,7 +9,7 @@
       ref="audioPlayer"
       class="video-js vjs-big-play-centered"
     ></video>
-      <slot name="middle"></slot>
+    <slot name="middle"></slot>
     <audio-control-bar
       @onPre="onPre"
       @onPlay="onPlay"
@@ -19,12 +19,7 @@
       ref="audioControlBar"
     ></audio-control-bar>
 
-    <van-popup
-      v-model:show="show"
-      round
-      position="bottom"
-      :style="{ height: '30%' }"
-    >
+    <van-popup v-model:show="show" round position="bottom" :style="{ height: '30%' }">
       <div class="header">播放列表</div>
 
       <div
@@ -33,9 +28,7 @@
         :class="{ active: index === i }"
         v-for="(item, index) in options.sources"
         :key="index"
-      >
-        {{ item.name }}
-      </div>
+      >{{ item.name }}</div>
     </van-popup>
   </div>
 </template>
@@ -43,12 +36,14 @@
 <script>
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
-import './SettingMenu/SettingMenuButton';
-import './video.scss'
-import './audio/audio.scss'
-import './audio/audio.js'
-import AudioControlBar from './audioControlBar.vue'
-
+import '../video/video.scss'
+import './audio.scss'
+import './audio.js'
+import AudioControlBar from './components/audioControlBar.vue'
+import { Popup } from 'vant';
+import { createApp } from 'vue';
+const app = createApp();
+app.use(Popup);
 const DEFAULT_EVENTS = [
   'loadeddata',
   'canplay',
@@ -70,24 +65,30 @@ export default {
     // 音频播放页面的配置
     options: {
       type: Object,
-      default () {
+      default() {
         return {}
       },
     },
   },
   watch: {
     options: {// fullScreen
-      handler (val) {
+      handler(val) {
         this.audioOptions = {
           ...this.defaultConfig,
           ...val
         };
-        console.log('audioOptions', this.audioOptions);
+        if (this.player && this.player !== null) {
+          const videoObj = this.options.sources[0];
+          this.player.src({ type: videoObj.type, src: videoObj.src });
+          this.player.pause();
+          this.changeAudioName(videoObj.name);
+        }
       },
+      deep: true,
       immediate: true
     }
   },
-  data () {
+  data() {
     return {
       player: null,
       i: 0,
@@ -110,11 +111,11 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     this.initialize();
   },
   methods: {
-    initialize () {
+    initialize() {
       const that = this;
       // emit event
       const emitPlayerState = (event) => {
@@ -125,7 +126,14 @@ export default {
               this.onPlayEnd();
               break;
             case 'pause':
-              this.doPause();  
+              this.doPause();
+              break;
+            case 'play':
+              this.doPlay();
+              break;
+            case 'error':
+              this.onPlayError();
+              break;
             default:
               break;
           }
@@ -136,7 +144,7 @@ export default {
       this.player = videojs(
         this.$refs.audioPlayer,
         this.audioOptions,
-        function onPlayerReady () {
+        function onPlayerReady() {
           // events
           const events = DEFAULT_EVENTS;
           for (let i = 0; i < events.length; i++) {
@@ -157,32 +165,42 @@ export default {
       });
       this.setConfigStyle();
     },
-    setConfigStyle () {
+    setConfigStyle() {
       console.log('aa', this.audioOptions);
       if (this.audioOptions.fullScreen && this.audioOptions.fullScreen === true) {
-        console.log('ss');
         document.getElementsByClassName('vjs-tech')[0].style.backgroundSize = '100vw calc(100vh - 100px)';
-        document.getElementsByClassName('vjs-tech')[0].style.backgroundImage = "url(src/assets/player/fullScreen_bg.png)";
+        document.getElementsByClassName('vjs-tech')[0].style.backgroundImage = `url(${this.getSrc('fullScreen_bg')})`;
         document.getElementsByClassName('video-js')[0].style.height = 'calc(100vh - 100px)';
+      } else {
+        document.getElementsByClassName('vjs-tech')[0].style.backgroundSize = '100vw 200px';
+        document.getElementsByClassName('vjs-tech')[0].style.backgroundImage = `url(${this.getSrc('music_bg')})`;
       }
     },
+    getSrc(name) {
+      const path = `/src/assets/player/${name}.png`;
+      const modules = import.meta.globEager("/src/assets/player/*.png");
+      return modules[path].default;
+    },
     // 点击播放
-    onPlay (state) {
+    onPlay(state) {
       if (state === '1') {
         this.player.play();
       } else {
         this.player.pause();
       }
     },
-    doPause () {
+    doPause() {
       this.$refs.audioControlBar.hanldlePause();
     },
-    switchMode (state) {
+    doPlay() {
+      this.$refs.audioControlBar.hanldlePlay();
+    },
+    switchMode(state) {
       console.log('iii', state);
       this.playState = state;
     },
     // 播放结束切换
-    onPlayEnd () {
+    onPlayEnd() {
       if (this.playState === '2') {
         this.i++;
         if (this.i >= this.options.sources.length) {
@@ -194,7 +212,7 @@ export default {
       }
     },
     // 上一曲
-    onPre () {
+    onPre() {
       if (this.playState === '1') {
         this.currentPlay();
         return;
@@ -207,7 +225,7 @@ export default {
       this.currentPlay();
     },
     // 下一曲
-    onNext () {
+    onNext() {
       if (this.playState === '1') {
         this.currentPlay();
         return;
@@ -218,27 +236,31 @@ export default {
       }
       this.currentPlay();
     },
-    changeAudioName (name) {
+    onPlayError() {
+      // 修改错误 文案提示
+      document.getElementsByClassName('vjs-modal-dialog-content')[0].textContent = '音频资源加载失败';
+    },
+    changeAudioName(name) {
       const tag = document.getElementsByClassName('vjs-ap-track-truncated')[0];
       console.log('-----', tag.textContent);
       tag.textContent = name;
     },
-    onPlayAtIndex (index) {
+    onPlayAtIndex(index) {
       this.i = index;
       this.show = false;
       this.currentPlay();
     },
-    currentPlay () {
+    currentPlay() {
       const videoObj = this.options.sources[this.i];
       this.player.src({ type: videoObj.type, src: videoObj.src });
       this.player.play();
       this.changeAudioName(videoObj.name);
     },
-    onShowList () {
+    onShowList() {
       this.show = true;
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     if (this.player) {
       this.player.dispose()
     }
@@ -247,22 +269,4 @@ export default {
 </script>
 
 <style lang="scss">
-.vcom-audio {
-  .header {
-    font-size: 18px;
-    font-family: PingFangSC, PingFangSC-Medium;
-    font-weight: bold;
-    text-align: left;
-    color: rgba(0, 0, 0, 0.85);
-    line-height: 66px;
-    text-align: center;
-    height: 66px;
-  }
-  .list {
-    padding: 5px 20px;
-  }
-  .active {
-    color: #0c90f8;
-  }
-}
 </style>

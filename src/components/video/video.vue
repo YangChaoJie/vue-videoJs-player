@@ -15,8 +15,6 @@
 <script>
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
-import { QualityMenuItem, QualityMenuItemChild } from './common.js';
-import './SettingMenu/SettingMenuButton';
 import './video.scss'
 import 'videojs-landscape-fullscreen'
 
@@ -107,36 +105,15 @@ export default {
     //     myPlayer.play(); // 自动播放
     // });
     this.newButtonToggle()
+    document.addEventListener('pause', function () {
+      console.log('hahahahah');
+      alert('1231244');
+    });
   },
   methods: {
     newButtonToggle () {
-      // var button = videojs.getComponent('Button')
-      // var closeButton = videojs.extend(button, {
-      //   constructor: function () {
-      //     button.apply(this, arguments)
-      //     this.controlText('AA')
-      //     this.addClass('vjs-icon-circle');
-      //     this.addClass('vjs-btn-test');
-      //   },
-      //   handleClick: function () {
-      //     alert('hehe')
-      //   },
-      // })
-
-      // videojs.registerComponent('closeButton', closeButton)
-      // videojs.registerComponent('QualityMenuItem', QualityMenuItem);
-      // videojs.registerComponent('QualityMenuItemChild', QualityMenuItemChild);
-      // videojs.registerComponent('myButton', myButton);
-      // this.player.addChild('closeButton', {});
-      // this.player.getChild('ControlBar').addChild('closeButton', {})
-      // this.player.addChild('closeButton', {})
-
       // 隐藏掉 画中画
       this.player.getChild('ControlBar').removeChild('pictureInPictureToggle')
-      // videojs
-      //   .getComponent('SettingMenuButton')
-      //   .prototype.options_.entries.push('QualityMenuItem');
-
     },
     test () {
       this.$nextTick(() => {
