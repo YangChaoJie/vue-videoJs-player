@@ -21,9 +21,9 @@
 <script>
 import 'video.js/dist/video-js.css'
 import Vue from 'vue'
-import { videoPlayer } from 'vcom-video-player'
+// import { videoPlayer } from 'vcom-video-player'
 // import videoPlayer from './components/video.vue'
-import audioPlayer from '../../components/audio.vue'
+import audioPlayer from '@/components/audio/index.vue'
 import { Slider } from 'vant';
 Vue.use(Slider);
 // import { audioPlayer } from 'vcom-video-player'
@@ -43,7 +43,7 @@ const getUrlParam = (name) => {
 }
 export default {
   components: {
-    videoPlayer,
+    // videoPlayer,
     audioPlayer
   },
   data () {
@@ -143,6 +143,10 @@ export default {
       // ]
       // Vue.set(this.audioOptions, 'sources', source)
       window.location.href = 'https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzA3NTY3ODg2Mg==#wechat_redirect';
+    },
+
+    onChange (val) {
+
     }
   }
 }

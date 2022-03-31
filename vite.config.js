@@ -28,7 +28,7 @@ export default defineConfig({
           libraryName: 'vcom-video-player',
           esModule: true,
           resolveStyle: () => `vcom-video-player/dist/style.css`,
-        },
+        }
       ]
     })],
    // 在文件中添加以下内容

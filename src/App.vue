@@ -19,7 +19,7 @@ import 'video.js/dist/video-js.css'
 import Vue from 'vue'
 import { videoPlayer } from 'vcom-video-player'
 // import videoPlayer from './components/video.vue'
-import audioPlayer from './components/audio.vue'
+// import audioPlayer from '@/components/audio'
 // import { audioPlayer } from 'vcom-video-player'
 // 判断是否为公众号模拟器环境
 const isWechat = () => {
@@ -38,7 +38,7 @@ const getUrlParam = (name) => {
 export default {
   components: {
     videoPlayer,
-    audioPlayer
+    // audioPlayer
   },
   data () {
     return {
