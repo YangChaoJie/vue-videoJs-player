@@ -33,7 +33,7 @@ export default {
     videoPlayer,
     // audioPlayer
   },
-  data () {
+  data() {
     return {
       videoOptions: {
         code: '',
@@ -44,10 +44,23 @@ export default {
         controlBar: {
           // fullscreenToggle: true
         },
+        plugins: {
+          videoJsResolutionSwitcher: {
+            default: 'low',
+            ui: true,
+            dynamicLabel: true
+          }
+        },
         sources: [
           {
             src: 'https://rsszw.czbanbantong.com//localpath/servicecenter/20210401/20210401130614879709195799766/%E3%80%90English_Singsing%E3%80%91Phonics_Rap_Ah264_720x576_800k.mp4',
             type: 'video/mp4',
+            label: '高清'
+          },
+           {
+            src: 'https://rsszw.czbanbantong.com//localpath/servicecenter/20210401/20210401130614879709195799766/%E3%80%90English_Singsing%E3%80%91Phonics_Rap_Ah264_720x576_800k.mp4',
+            type: 'video/mp4',
+            label: '标清'
           },
         ],
       },
@@ -68,11 +81,11 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     this.getWxCode();
   },
   methods: {
-    getWxCode () {
+    getWxCode() {
       if (isWechat()) {
         let appid = "wxa16190e252fb8b16"; //为测试号id
         let code = getUrlParam("code"); //是否存在code
@@ -90,7 +103,7 @@ export default {
         }
       }
     },
-    onTimeupdate (player) {
+    onTimeupdate(player) {
       console.log('监听事件', player.currentTime(), player.duration());
       if (Math.ceil(player.currentTime()) >= 30) {
         this.$dialog.alert({
@@ -100,13 +113,13 @@ export default {
         this.$root.$emit('audioPause');
       }
     },
-    onTest () {
+    onTest() {
       const source = [
-            {
-            src: 'https://rsszw.czbanbantong.com//localpath/servicecenter/20150821/20150821074214500203966723014/%E5%84%BF%E6%AD%8C%E6%AC%A3%E8%B5%8F%EF%BC%9A%E5%BF%AB%E5%BF%AB%E4%B9%90%E4%B9%90%E4%B8%8A%E5%AD%A6%E6%A0%A1_128k.mp3',
-            type: 'audio/mp3',
-            name: '测试音频2'
-          }
+        {
+          src: 'https://rsszw.czbanbantong.com//localpath/servicecenter/20150821/20150821074214500203966723014/%E5%84%BF%E6%AD%8C%E6%AC%A3%E8%B5%8F%EF%BC%9A%E5%BF%AB%E5%BF%AB%E4%B9%90%E4%B9%90%E4%B8%8A%E5%AD%A6%E6%A0%A1_128k.mp3',
+          type: 'audio/mp3',
+          name: '测试音频2'
+        }
       ]
       // https://ncp.czbanbantong.com/nrmsui/share/share/auth?rcode=1464478403133473&source=teacher&resType=filed&sharePath=play&refer=https://zw.czbanbantong.com 
       // https://ncp.czbanbantong.com/nrmsui/share/share/'https://zw.czbanbantong.com'/nrmsui/share/share/play?rcode=1464478403133473&source=teacher&resType=filed&sharePath=play&refer=%27https%3A%2F%2Fzw.czbanbantong.com%27

@@ -17,28 +17,30 @@ import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 import './video.scss'
 import 'videojs-landscape-fullscreen'
+import './resolution-switcher/index.js'
 
 export default {
   name: 'VideoPlayer',
   props: {
     options: {
       type: Object,
-      default () {
+      default() {
         return {}
       },
     },
   },
-  data () {
+  data() {
     return {
       player: null,
     }
   },
-  mounted () {
+  mounted() {
     const that = this;
+
     this.player = videojs(
       this.$refs.videoPlayer,
       this.options,
-      function onPlayerReady () {
+      function onPlayerReady() {
         console.log('onPlayerReady', this)
         this.on("loadstart", function () {
           console.log("开始请求数据 ");
@@ -93,6 +95,14 @@ export default {
         })
       }
     )
+    // this.player.videoJsResolutionSwitcher(this.options)
+
+    this.player.updateSrc(this.options.sources)
+
+    this.player.on('resolutionchange', function () {
+      console.info('Source changed to %s', this.player.src())
+    })
+    console.log('.....', this.player);
     this.player.landscapeFullscreen({
       fullscreen: {
         enterOnRotate: true,
@@ -111,18 +121,18 @@ export default {
     });
   },
   methods: {
-    newButtonToggle () {
+    newButtonToggle() {
       // 隐藏掉 画中画
       this.player.getChild('ControlBar').removeChild('pictureInPictureToggle')
     },
-    test () {
+    test() {
       this.$nextTick(() => {
         this.player.requestFullscreen();
         window.screen.orientation.lock("landscape")
       })
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     if (this.player) {
       this.player.dispose()
     }

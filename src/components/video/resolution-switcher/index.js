@@ -2,7 +2,9 @@
  * Copyright (c) 2016 Kasper Moskwiak
  * Modified by hefeng1208
  * Licensed under the Apache-2.0 license. */
-
+import videojs from 'video.js';
+import './index.css'
+window.videojs = videojs;
 (function() {
   /* jshint eqnull: true*/
   /* global require */
@@ -13,10 +15,7 @@
   } else {
     videojs = window.videojs;
   }
-
   (function(window, videojs) {
-
-
     var defaults = {},
       videoJsResolutionSwitcher,
       currentResolution = {}, // stores current resolution
@@ -108,14 +107,12 @@
     var MenuButton = videojs.getComponent('MenuButton');
     var ResolutionMenuButton = videojs.extend(MenuButton, {
       constructor: function(player, options, settings, label){
-
         this.sources = options.sources;
         this.label = label;
         this.label.innerHTML = options.initialySelectedLabel;
         // Sets this.player_, this.options_ and initializes the component
         MenuButton.call(this, player, options, settings);
         this.controlText('Quality');
-
         if(settings.dynamicLabel){
           this.el().appendChild(label);
         }else{
@@ -161,7 +158,7 @@
     videoJsResolutionSwitcher = function(options) {
       var settings = videojs.mergeOptions(defaults, options),
         player = this,
-        label = document.createElement('span'),
+        label = document.createElement('div'),
         groupedSrc = {};
 
       videojs.dom.addClass(label, 'vjs-resolution-button-label');
@@ -186,6 +183,8 @@
         var menuButton = new ResolutionMenuButton(player,
           { sources: groupedSrc, initialySelectedLabel: choosen.label , initialySelectedRes: choosen.res , customSourcePicker: settings.customSourcePicker}, settings, label);
         videojs.dom.addClass(menuButton.el(), 'vjs-resolution-button');
+        // player.controlBar.addChild(menuButton.el());
+        // player.controlBar.addChild(menuButton)
         player.controlBar.resolutionSwitcher = player.controlBar.el_.insertBefore(menuButton.el_, player.controlBar.getChild('fullscreenToggle').el_);
         player.controlBar.resolutionSwitcher.dispose = function(){
           this.parentNode.removeChild(this);
@@ -347,15 +346,12 @@
           // tech: Html5 and Flash
           // Create resolution switcher for videos form <source> tag inside <video>
         }
-
         if(player.techName_ === 'Youtube'){
           // tech: YouTube
           initResolutionForYt(player);
         }
       });
-
     };
-
     // register the plugin
     videojs.registerPlugin('videoJsResolutionSwitcher', videoJsResolutionSwitcher);
   })(window, videojs);

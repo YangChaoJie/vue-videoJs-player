@@ -9,7 +9,7 @@
           <template v-slot:middle v-if="audioOptions.fullScreen === false">
             <span>Here might be a page title</span>
           </template>
-      </audio-player> -->
+      </audio-player>-->
     </div>
   </div>
 </template>
@@ -37,22 +37,37 @@ export default {
     videoPlayer,
     audioPlayer
   },
-  data () {
+  data() {
     return {
       value: 20,
       videoOptions: {
-        code: '',
         controls: true,
         autoplay: false,
         muted: false,
+        width: 1000,
         poster: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwx3.sinaimg.cn%2Flarge%2F547f46d9ly4gsqmhfbuf1j20u00g2whd.jpg&refer=http%3A%2F%2Fwx3.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1631348141&t=9a2d66a6d2bc463b9d5b69fdb2207e61',
         controlBar: {
           // fullscreenToggle: true
+        },
+        plugins: {
+          videoJsResolutionSwitcher: {
+            default: 'high',
+            ui: true,
+            dynamicLabel: true
+          }
         },
         sources: [
           {
             src: 'https://rsszw.czbanbantong.com/localpath/servicecenter/20170929/20170929112349562169599574850/%E8%AE%A4%E8%AF%86%E7%94%B0%E5%AD%97%E6%A0%BC%EF%BC%8C%E5%AD%A6%E5%86%99%E6%B1%89%E5%AD%97h264_1920x1080_1800k.mp4',
             type: 'video/mp4',
+            label: 'HD',
+            res: '720'
+          },
+          {
+            src: 'http://media.xiph.org/mango/tears_of_steel_1080p.webm',
+            type: 'video/webm',
+            label: 'SD',
+            res: '360'
           },
         ],
       },
@@ -73,7 +88,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     // this.getWxCode();
     // document.addEventListener('pause', function () {
     //   console.log('hahahahah');
@@ -93,7 +108,7 @@ export default {
     // window.location.href = `https://zw.czbanbantong.com/index?code=${this.$route.query.code}`;
   },
   methods: {
-    getWxCode () {
+    getWxCode() {
       if (isWechat()) {
         let appid = "wxa16190e252fb8b16"; //为测试号id
         let code = getUrlParam("code"); //是否存在co？
@@ -114,7 +129,7 @@ export default {
         }
       }
     },
-    onTimeupdate (player) {
+    onTimeupdate(player) {
       console.log('监听事件', player.currentTime(), player.duration());
       if (Math.ceil(player.currentTime()) >= 30) {
         this.$dialog.alert({
@@ -124,7 +139,7 @@ export default {
         this.$root.$emit('audioPause');
       }
     },
-    onTest () {
+    onTest() {
       // const source = [
       //       {
       //       src: 'https://rsszw.czbanbantong.com//localpath/servicecenter/20150821/20150821074214500203966723014/%E5%84%BF%E6%AD%8C%E6%AC%A3%E8%B5%8F%EF%BC%9A%E5%BF%AB%E5%BF%AB%E4%B9%90%E4%B9%90%E4%B8%8A%E5%AD%A6%E6%A0%A1_128k.mp3',
@@ -136,7 +151,7 @@ export default {
       window.location.href = 'https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzA3NTY3ODg2Mg==#wechat_redirect';
     },
 
-    onChange (val) {
+    onChange(val) {
 
     }
   }
