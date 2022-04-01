@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="tt">
-      <!-- <video-player :options="videoOptions" /> -->
+      <video-player :options="videoOptions" />
       <!-- <audio-player
         @timeupdate="onTimeupdate"
         :options="audioOptions"
@@ -11,19 +11,13 @@
           </template>
       </audio-player> -->
     </div>
-    <van-slider v-model="value" @change="onChange" />
-     <!-- <slider v-model="value" @change="onChange" /> -->
-    <iframe name="iframe" style="width: 1000px;" src="http://192.168.144.53:4000/home" width="1000" height="800" frameborder="0"></iframe>
-    <!-- <button @click="onTest">这是回调页面</button>
-    <div @click="onTest"></div> -->
   </div>
 </template>
 
 <script>
 import 'video.js/dist/video-js.css'
-import { Slider } from 'vant';
-console.log('slider', Slider);
 import audioPlayer from '@/components/audio/audio.vue'
+import videoPlayer from '@/components/video/video.vue'
 // 判断是否为公众号模拟器环境
 const isWechat = () => {
   return String(navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) === "micromessenger";
@@ -40,9 +34,8 @@ const getUrlParam = (name) => {
 }
 export default {
   components: {
-    // videoPlayer,
-    audioPlayer,
-    VanSlider: Slider
+    videoPlayer,
+    audioPlayer
   },
   data () {
     return {
@@ -58,7 +51,7 @@ export default {
         },
         sources: [
           {
-            src: 'https://rsszw.czbanbantong.com//localpath/servicecenter/20210401/20210401130614879709195799766/%E3%80%90English_Singsing%E3%80%91Phonics_Rap_Ah264_720x576_800k.mp4',
+            src: 'https://rsszw.czbanbantong.com/localpath/servicecenter/20170929/20170929112349562169599574850/%E8%AE%A4%E8%AF%86%E7%94%B0%E5%AD%97%E6%A0%BC%EF%BC%8C%E5%AD%A6%E5%86%99%E6%B1%89%E5%AD%97h264_1920x1080_1800k.mp4',
             type: 'video/mp4',
           },
         ],

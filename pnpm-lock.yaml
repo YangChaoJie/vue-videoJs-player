@@ -4,6 +4,7 @@ specifiers:
   '@vitejs/plugin-vue': ^1.3.0
   '@vue/compiler-sfc': ^3.0.5
   sass: ^1.36.0
+  typescript: ^4.6.3
   vant: ^3.4.7
   vcom-video-player: ^0.0.1
   video.js: ^7.14.3
@@ -31,6 +32,7 @@ dependencies:
 devDependencies:
   '@vitejs/plugin-vue': 1.10.2_vite@2.9.0
   '@vue/compiler-sfc': 3.2.31
+  typescript: 4.6.3
   vite: 2.9.0_sass@1.49.10
   vite-plugin-style-import: 1.4.1_vite@2.9.0
 
@@ -1011,6 +1013,12 @@ packages:
   /type/2.6.0:
     resolution: {integrity: sha512-eiDBDOmkih5pMbo9OqsqPRGMljLodLcwd5XD5JbtNB0o89xZAwynY9EdCDsJU7LtcVCClu9DvM7/0Ep1hYX3EQ==}
     dev: false
+
+  /typescript/4.6.3:
+    resolution: {integrity: sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
 
   /unidragger/2.4.0:
     resolution: {integrity: sha512-MueZK2oXuGE6OAlGKIrSXK2zCq+8yb1QUZgqyTDCSJzvwYL0g2Llrad+TtoQTYxtFnNyxxSw0IMnKNIgEMia1w==}
