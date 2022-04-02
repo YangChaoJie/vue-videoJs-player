@@ -5,19 +5,32 @@
       preload="none"
       webkit-playsinline="true"
       playsinline="true"
-      data-setup='{ "playbackRates": [1, 1.5, 2] }'
+      x5-video-play-type="h5-page"
       ref="videoPlayer"
       class="video-js vjs-big-play-centered"
     ></video>
   </div>
 </template>
 
-<script>
+<script lang="js">
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 import './video.scss'
 import 'videojs-landscape-fullscreen'
 import './resolution-switcher/index.js'
+
+const DEFAULT_EVENTS = [
+  'loadeddata',
+  'canplay',
+  'canplaythrough',
+  'play',
+  'timeupdate',
+  'pause',
+  'waiting',
+  'playing',
+  'ended',
+  'error'
+]
 
 export default {
   name: 'VideoPlayer',
@@ -32,77 +45,43 @@ export default {
   data() {
     return {
       player: null,
+      defaultConfig: {
+        controls: true,
+        autoplay: false,
+        playbackRate: [1, 1.5, 2],
+        muted: false,
+        poster: 'none',
+        plugins: {
+          videoJsResolutionSwitcher: {
+            default: 'high',
+            ui: true,
+            dynamicLabel: true
+          }
+        },
+        videoOptions: {}
+      }
+    }
+  },
+  watch: {
+    options: {
+      handler (val) {
+        this.videoOptions = {
+          ...this.defaultConfig,
+          ...val
+        }
+      },
+      immediate: true
     }
   },
   mounted() {
-    const that = this;
-
-    this.player = videojs(
-      this.$refs.videoPlayer,
-      this.options,
-      function onPlayerReady() {
-        console.log('onPlayerReady', this)
-        this.on("loadstart", function () {
-          console.log("开始请求数据 ");
-        })
-        this.on("progress", function () {
-          console.log("正在请求数据 ");
-        })
-        this.on("loadedmetadata", function () {
-          console.log("获取资源长度完成 ")
-        })
-        this.on("canplaythrough", function () {
-          console.log("视频源数据加载完成")
-        })
-        this.on("waiting", function () {
-          console.log("等待数据")
-        });
-        this.on("play", function () {
-          console.log("视频开始播放")
-        });
-        this.on("playing", function () {
-          console.log("视频播放中")
-          // that.test();
-        });
-        this.on("pause", function () {
-          console.log(that);
-          // debugger;
-          console.log("视频暂停播放")
-        });
-        this.on("ended", function () {
-          console.log("视频播放结束");
-        });
-        this.on("error", function () {
-          console.log("加载错误")
-        });
-        this.on("seeking", function () {
-          console.log("视频跳转中");
-        })
-        this.on("seeked", function () {
-          console.log("视频跳转结束");
-        })
-        this.on("ratechange", function () {
-          console.log("播放速率改变")
-        });
-        this.on("timeupdate", function () {
-          console.log("播放时长改变");
-        })
-        this.on("volumechange", function () {
-          console.log("音量改变");
-        })
-        this.on("stalled", function () {
-          console.log("网速异常");
-        })
-      }
-    )
+    this.initialize();
     // this.player.videoJsResolutionSwitcher(this.options)
 
     this.player.updateSrc(this.options.sources)
 
-    this.player.on('resolutionchange', function () {
+    this.player.on('resolutionchange', () => {
       console.info('Source changed to %s', this.player.src())
     })
-    console.log('.....', this.player);
     this.player.landscapeFullscreen({
       fullscreen: {
         enterOnRotate: true,
@@ -117,13 +96,48 @@ export default {
     this.newButtonToggle()
     document.addEventListener('pause', function () {
       console.log('hahahahah');
-      alert('1231244');
     });
   },
   methods: {
+    initialize () {
+      const that = this;
+      // emit event
+      const emitPlayerSate = (event) => {
+        if (event) {
+          switch (event) {
+            case 'error':
+              this.onPlayError()
+              break;
+            default:
+              break;
+          }
+        }
+        this.$emit(event, this.player)
+      }
+
+      this.player = videojs(
+        this.$refs.videoPlayer,
+        this.videoOptions,
+        function onPlayReady() {
+          const events = DEFAULT_EVENTS
+          for (let i = 0; i < events.length; i++) {
+            if (typeof events[i] === 'string') {
+              (event => {
+                this.on(event, ()=> {
+                  emitPlayerSate(event)
+                })
+              })(events[i])
+            }
+          }
+        }
+      )
+    },
     newButtonToggle() {
       // 隐藏掉 画中画
       this.player.getChild('ControlBar').removeChild('pictureInPictureToggle')
+    },
+    onPlayError () {
+      document.getElementsByClassName('vjs-modal-dialog-content')[0].textContent = '视频加载失败'
     },
     test() {
       this.$nextTick(() => {

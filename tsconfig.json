@@ -7,11 +7,12 @@
     "strict": true,
     "jsx": "preserve",
     "noImplicitThis": true,
+    "allowJs": true,
     "sourceMap": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/components/video/resolution-switcher/index.js"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }

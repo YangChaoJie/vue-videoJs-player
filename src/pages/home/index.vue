@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<script>
+<script lang="js">
 import 'video.js/dist/video-js.css'
 import audioPlayer from '@/components/audio/audio.vue'
 import videoPlayer from '@/components/video/video.vue'
@@ -41,34 +41,23 @@ export default {
     return {
       value: 20,
       videoOptions: {
-        controls: true,
-        autoplay: false,
-        muted: false,
-        width: 1000,
         poster: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwx3.sinaimg.cn%2Flarge%2F547f46d9ly4gsqmhfbuf1j20u00g2whd.jpg&refer=http%3A%2F%2Fwx3.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1631348141&t=9a2d66a6d2bc463b9d5b69fdb2207e61',
         controlBar: {
           // fullscreenToggle: true
         },
-        plugins: {
-          videoJsResolutionSwitcher: {
-            default: 'high',
-            ui: true,
-            dynamicLabel: true
-          }
-        },
         sources: [
-          {
-            src: 'https://rsszw.czbanbantong.com/localpath/servicecenter/20170929/20170929112349562169599574850/%E8%AE%A4%E8%AF%86%E7%94%B0%E5%AD%97%E6%A0%BC%EF%BC%8C%E5%AD%A6%E5%86%99%E6%B1%89%E5%AD%97h264_1920x1080_1800k.mp4',
-            type: 'video/mp4',
-            label: 'HD',
-            res: '720'
-          },
           {
             src: 'http://media.xiph.org/mango/tears_of_steel_1080p.webm',
             type: 'video/webm',
             label: 'SD',
             res: '360'
           },
+          {
+            src: 'https://vjs.zencdn.net/v/oceans.mp4?HD',
+            type: 'video/mp4',
+            label: 'HD',
+            res: '720'
+          }
         ],
       },
       audioOptions: {
