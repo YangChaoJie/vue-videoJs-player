@@ -9,6 +9,9 @@
       ref="videoPlayer"
       class="video-js vjs-big-play-centered"
     ></video>
+    <!-- <video-js id="vid1" width="600" height="300" class="vjs-default-skin" controls>
+      <source src="https://example.com/index.m3u8" type="application/x-mpegURL" />
+    </video-js> -->
   </div>
 </template>
 
@@ -64,7 +67,7 @@ export default {
   },
   watch: {
     options: {
-      handler (val) {
+      handler(val) {
         this.videoOptions = {
           ...this.defaultConfig,
           ...val
@@ -99,7 +102,7 @@ export default {
     });
   },
   methods: {
-    initialize () {
+    initialize() {
       const that = this;
       // emit event
       const emitPlayerSate = (event) => {
@@ -123,7 +126,7 @@ export default {
           for (let i = 0; i < events.length; i++) {
             if (typeof events[i] === 'string') {
               (event => {
-                this.on(event, ()=> {
+                this.on(event, () => {
                   emitPlayerSate(event)
                 })
               })(events[i])
@@ -131,12 +134,25 @@ export default {
           }
         }
       )
+
+      videojs.use('video/mp4', (player) => {
+        console.log('正在播放');
+        return {
+          setSource(srcObj, next) {
+            next(null, srcObj)
+          },
+          setVolume(val) {
+            console.log('val----', val);
+            return 0.2
+          }
+        }
+      })
     },
     newButtonToggle() {
       // 隐藏掉 画中画
       this.player.getChild('ControlBar').removeChild('pictureInPictureToggle')
     },
-    onPlayError () {
+    onPlayError() {
       document.getElementsByClassName('vjs-modal-dialog-content')[0].textContent = '视频加载失败'
     },
     test() {
