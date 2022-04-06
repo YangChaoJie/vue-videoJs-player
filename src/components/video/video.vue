@@ -11,7 +11,7 @@
     ></video>
     <!-- <video-js id="vid1" width="600" height="300" class="vjs-default-skin" controls>
       <source src="https://example.com/index.m3u8" type="application/x-mpegURL" />
-    </video-js> -->
+    </video-js>-->
   </div>
 </template>
 
@@ -23,6 +23,7 @@ import 'videojs-landscape-fullscreen'
 import './resolution-switcher/index.js'
 
 const DEFAULT_EVENTS = [
+  'loadstart',
   'loadeddata',
   'canplay',
   'canplaythrough',
@@ -108,6 +109,9 @@ export default {
       const emitPlayerSate = (event) => {
         if (event) {
           switch (event) {
+            case 'loadstart':
+              this.decodeHls()
+              break;
             case 'error':
               this.onPlayError()
               break;
@@ -147,6 +151,26 @@ export default {
           }
         }
       })
+
+      this.decodeHls();
+    },
+
+    // AES 解密
+    decodeHls() {
+      if (!this.player.tech() ||  !this.player.tech().xhr) {
+        return
+      }
+      let prefix = 'key://'
+      let urlTpl = 'https://domain.com/path/{key}'
+
+      this.player.tech().vhs.xhr.beforeRequest = function (options) {
+        console.log('tech---laod', options);
+        // required for detecting only the key requests
+        if (!options.uri.startsWith(prefix)) { return; }
+        options.headers = options.headers || {};
+        optopns.headers["Custom-Header"] = "value";
+        options.uri = urlTpl.replace("{key}", options.uri.substring(prefix.length));
+      }
     },
     newButtonToggle() {
       // 隐藏掉 画中画

@@ -4,6 +4,7 @@ interface VideoOptions {
   mute?: boolean
   poster?: string
   controlBar?: object,
+  plugins: any[]
   sources: VideoSourceType
 }
 /**
