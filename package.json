@@ -19,6 +19,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@types/video.js": "^7.3.33",
     "sass": "^1.49.10",
     "vant": "^3.4.7",
     "vcom-video-player": "^0.0.1",
