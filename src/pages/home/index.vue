@@ -48,15 +48,21 @@ export default {
         sources: [
           {
             src: 'http://media.xiph.org/mango/tears_of_steel_1080p.webm',
-            type: 'video/webm',
+            type: 'video/mp4',
             label: 'SD',
             res: '360'
           },
-          {
-            src: 'https://vjs.zencdn.net/v/oceans.mp4?HD',
-            type: 'video/mp4',
-            label: 'HD',
-            res: '720'
+          // {
+          //   src: 'https://vjs.zencdn.net/v/oceans.mp4?HD',
+          //   type: 'video/mp4',
+          //   label: 'HD',
+          //   res: '720'
+          // },
+           {
+            src: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
+            type: 'application/x-mpegURL',
+            label: 'BBD',
+            res: '1080'
           }
         ],
       },

@@ -7,6 +7,7 @@
       playsinline="true"
       x5-video-play-type="h5-page"
       ref="videoPlayer"
+      :autoplay="true"
       class="video-js vjs-big-play-centered"
     ></video>
   </div>
@@ -47,7 +48,7 @@ export default {
       player: null,
       defaultConfig: {
         controls: true,
-        autoplay: false,
+        autoplay: true,
         playbackRate: [1, 1.5, 2],
         muted: false,
         poster: 'none',
@@ -89,14 +90,10 @@ export default {
         iOS: false
       }
     })
-    // this.player.ready(function(){
-    //     var myPlayer = this;
-    //     myPlayer.play(); // 自动播放
+    // this.player.ready(() => {
+    //     this.player.play(); // 自动播放
     // });
     this.newButtonToggle()
-    document.addEventListener('pause', function () {
-      console.log('hahahahah');
-    });
   },
   methods: {
     initialize () {
