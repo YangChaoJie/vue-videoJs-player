@@ -59,7 +59,8 @@ export default {
             res: '720'
           },
           {
-            src: ' https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8',
+            // src: ' https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8',
+            src: 'http://192.168.144.53:80/tmp/1234567890.m3u8',
             type: 'application/x-mpegURL',
             label: 'm3u8',
             res: '1080'
