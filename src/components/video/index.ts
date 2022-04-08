@@ -1,11 +1,28 @@
-interface VideoOptions {
+import videojs, { VideoJsPlayerOptions } from 'video.js'
+import { reactive, watchEffect, ref, onMounted, onBeforeUnmount, defineComponent, PropType, Ref } from 'vue-demi'
+
+const DEFAULT_EVENTS: string[] = [
+  'loadstart',
+  'loadeddata',
+  'canplay',
+  'canplaythrough',
+  'play',
+  'timeupdate',
+  'pause',
+  'waiting',
+  'playing',
+  'ended',
+  'error'
+]
+
+export default interface VideoOptions extends VideoJsPlayerOptions {
   controls?: boolean
   autoplay?: boolean
   mute?: boolean
   poster?: string
   controlBar?: object,
-  plugins: any[]
-  sources: VideoSourceType
+  plugins?: any[]
+  sources?: videojs.Tech.SourceObject[] | undefined
 }
 /**
  * HLS (HTTP Live Streaming)是Apple的动态码率自适应技术。主要用于PC和Apple终端的音视频服务。包括一个m3u(8)的索引文件，TS媒体分片文件和key加密串文件
@@ -34,6 +51,149 @@ type VideoSourceType = {
   type: string
 }
 
-export function userVideo (options: VideoOptions) {
+export const UseVideoComponent = defineComponent({
+  props: {
+    options: Object as PropType<VideoOptions>
+  },
 
+  emits: DEFAULT_EVENTS,
+  setup(props, { emit }) {
+    const videoPlayer = ref<HTMLElement | null>(null)
+    useVideo(props.options, emit, videoPlayer)
+  }
+})
+
+/**
+ * 
+ * @param options 播放配置
+ * @param emit  
+ * @param refValue dom
+ */
+export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(options?: P, emit?: (name: Name, ...args: any[]) => void, refValue?: Ref<HTMLElement | null>) {
+  const defaultConfig = reactive({
+    controls: true,
+    autoplay: true,
+    playbackRate: [1, 1.5, 2],
+    muted: false,
+    poster: 'none',
+    plugins: {
+      videoJsResolutionSwitcher: {
+        default: 'high',
+        ui: true,
+        dynamicLabel: true
+      }
+    },
+    videoOptions: {}
+  })
+
+  let videoOptions = {};
+  let videoPlayer = ref<HTMLElement | null>(null)
+  let player: videojs.Player
+
+  // watchEffect(() => {
+  //   videoOptions = {
+  //     ...defaultConfig,
+  //     ...options
+  //   }
+  // })
+
+  onMounted(() => {
+    initialize()
+  })
+
+  onBeforeUnmount(() => {
+    if (player) {
+      player.dispose()
+    }
+  })
+
+  function initialize() {
+    videoOptions = {
+      ...defaultConfig,
+      ...options
+    }
+    const emitPlayerSate = (event: Name) => {
+      if (event) {
+        switch (event) {
+          case 'loadstart':
+            decodeHls()
+            break;
+          case 'error':
+            onPlayError()
+            break;
+          default:
+            break;
+        }
+      }
+      emit?.(event, player)
+    }
+    // videoPlayer = refValue!
+    player = videojs(refValue?.value ?? '', videoOptions, function onPlayReady() {
+      const events = DEFAULT_EVENTS
+      for (let i = 0; i < events.length; i++) {
+        if (typeof events[i] === 'string') {
+          (event => {
+            this.on(event, () => {
+              emitPlayerSate(event as Name)
+            })
+          })(events[i])
+        }
+      }
+    })
+    const p = player as any
+    p.updateSrc(options?.sources)
+
+    player.on('resolutionchange', () => {
+      console.info('Source changed to %s', player.src())
+    })
+    p.landscapeFullscreen({
+      fullscreen: {
+        enterOnRotate: true,
+        alwaysInLandscapeMode: true,
+        iOS: false
+      }
+    })
+
+    videojs.use('video/mp4', (player) => {
+      console.log('正在播放');
+      return {
+        setSource(srcObj, next) {
+          next(null, srcObj)
+        },
+        setVolume(val: number) {
+          console.log('val----', val);
+          return 0.2
+        }
+      }
+    })
+    newButtonToggle()
+  }
+
+  function newButtonToggle() {
+    // 隐藏掉 画中画
+    player?.getChild('ControlBar')?.removeChild(player?.getChild('ControlBar')?.getChild('pictureInPictureToggle')!)
+  }
+
+  function onPlayError() {
+    document.getElementsByClassName('vjs-modal-dialog-content')[0].textContent = '视频加载失败'
+  }
+
+  // AES 解密
+  function decodeHls() {
+    const tech = player.tech() as any
+    if (!player.tech() || !tech.vhs) {
+      return
+    }
+    let prefix = 'key://'
+    let urlTpl = 'https://domain.com/path/{key}'
+
+    tech.vhs.xhr.beforeRequest = function (options: any) {
+      console.log('tech---laod', options);
+      // required for detecting only the key requests
+      if (!options.uri.startsWith(prefix)) { return; }
+      options.headers = options.headers || {};
+      options.headers["Custom-Header"] = "value";
+      options.uri = urlTpl.replace("{key}", options.uri.substring(prefix.length));
+    }
+  }
 }
