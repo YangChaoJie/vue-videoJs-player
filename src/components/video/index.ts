@@ -166,6 +166,7 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
         }
       }
     })
+
     newButtonToggle()
   }
 
@@ -184,16 +185,43 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
     if (!player.tech() || !tech.vhs) {
       return
     }
-    let prefix = 'key://'
-    let urlTpl = 'https://domain.com/path/{key}'
+    let prefix = '_enc.key'
+    let urlTpl = 'http://192.168.144.53/test.key'
+    // 'https://domain.com/path/{key}'
 
     tech.vhs.xhr.beforeRequest = function (options: any) {
       console.log('tech---laod', options);
       // required for detecting only the key requests
-      if (!options.uri.startsWith(prefix)) { return; }
+      if (options.uri.search(prefix) === -1) { return; }
+      console.log('222');
       options.headers = options.headers || {};
       options.headers["Custom-Header"] = "value";
-      options.uri = urlTpl.replace("{key}", options.uri.substring(prefix.length));
+      let s = '544cbbb9dfcb291c725623c43f8b8ee1'
+      console.log(hexStringToUint8Array(s));
+      options.uri = urlTpl
+      // urlTpl.replace("544cbbb9dfcb291c725623c43f8b8ee1", options.uri.substring(prefix.length));
     }
+
+    tech.on('vhs-aes', (e: any) => {
+      console.log('uuuuuuuuuuuuuuuuuuuuuuu====================',e);
+    });
   }
+
+ function hexStringToUint8Array(hexString: string){
+    if (hexString.length % 2 !== 0){
+      throw "Invalid hexString";
+    }/*from  w w w.  j  av a 2s  . c  o  m*/
+    var arrayBuffer = new Uint8Array(hexString.length / 2);
+  
+    for (var i = 0; i < hexString.length; i += 2) {
+      var byteValue = parseInt(hexString.substr(i, 2), 16);
+      if (isNaN(byteValue)){
+        throw "Invalid hexString";
+      }
+      arrayBuffer[i/2] = byteValue;
+    }
+  
+    return arrayBuffer;
+  }
+  
 }
