@@ -14,13 +14,13 @@
 </template>
 
 <script setup lang="ts">
-import videojs from 'video.js'
+import videojs, { VideoJsPlayerOptions } from 'video.js'
 import 'video.js/dist/video-js.css'
 import './video.scss'
 import 'videojs-landscape-fullscreen'
 import './resolution-switcher/index.js'
-import { reactive, watchEffect, ref } from 'vue-demi'
-const DEFAULT_EVENTS = [
+import { reactive, watchEffect, ref, onMounted, onBeforeUnmount } from 'vue-demi'
+const DEFAULT_EVENTS: string[] = [
   'loadstart',
   'loadeddata',
   'canplay',
@@ -35,10 +35,12 @@ const DEFAULT_EVENTS = [
 ]
 
 const props = defineProps<{
-  options: object
+  options: VideoJsPlayerOptions
 }>()
 
-const emit = defineEmits(DEFAULT_EVENTS)
+const emit = defineEmits<{
+  (event: string, player: videojs.Player): void
+}>()
 
 const defaultConfig = reactive({
   controls: true,
@@ -57,6 +59,8 @@ const defaultConfig = reactive({
 })
 
 let videoOptions = {};
+const videoPlayer = ref<HTMLElement | null>(null)
+let player: videojs.Player
 
 watchEffect(() => {
   videoOptions = {
@@ -64,23 +68,32 @@ watchEffect(() => {
     ...props.options
   }
 })
-const videoPlayer = ref<HTMLElement | null>(null)
-let player: videojs.Player
+
+onMounted(() => {
+  initialize()
+})
+
+onBeforeUnmount(() => {
+  if (player) {
+    player.dispose()
+  }
+})
+
 function initialize() {
   const emitPlayerSate = (event: string) => {
     if (event) {
       switch (event) {
         case 'loadstart':
-          // this.decodeHls()
+          decodeHls()
           break;
         case 'error':
-          // this.onPlayError()
+          onPlayError()
           break;
         default:
           break;
       }
     }
-    emit(event)
+    emit(event, player)
   }
 
   player = videojs(videoPlayer.value ?? '', videoOptions, function onPlayReady() {
@@ -93,6 +106,19 @@ function initialize() {
           })
         })(events[i])
       }
+    }
+  })
+  const p = player as any
+  p.updateSrc(props.options.sources)
+
+  player.on('resolutionchange', () => {
+    console.info('Source changed to %s', player.src())
+  })
+  p.landscapeFullscreen({
+    fullscreen: {
+      enterOnRotate: true,
+      alwaysInLandscapeMode: true,
+      iOS: false
     }
   })
 
@@ -108,11 +134,35 @@ function initialize() {
       }
     }
   })
+  newButtonToggle()
 }
 
 function newButtonToggle() {
   // 隐藏掉 画中画
-  player?.getChild('ControlBar')?.removeChild(player?.getChild('pictureInPictureToggle')!)
+  player?.getChild('ControlBar')?.removeChild(player?.getChild('ControlBar')?.getChild('pictureInPictureToggle')!)
+}
+
+function onPlayError() {
+  document.getElementsByClassName('vjs-modal-dialog-content')[0].textContent = '视频加载失败'
+}
+
+// AES 解密
+function decodeHls() {
+  const tech = player.tech() as any
+  if (!player.tech() || !tech.vhs) {
+    return
+  }
+  let prefix = 'key://'
+  let urlTpl = 'https://domain.com/path/{key}'
+
+  tech.vhs.xhr.beforeRequest = function (options: any) {
+    console.log('tech---laod', options);
+    // required for detecting only the key requests
+    if (!options.uri.startsWith(prefix)) { return; }
+    options.headers = options.headers || {};
+    options.headers["Custom-Header"] = "value";
+    options.uri = urlTpl.replace("{key}", options.uri.substring(prefix.length));
+  }
 }
 
 </script>
