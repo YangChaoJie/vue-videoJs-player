@@ -76,6 +76,16 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
     playbackRate: [1, 1.5, 2],
     muted: false,
     poster: 'none',
+    html5: {
+      vhs: {
+        withCredentials: false
+        // handlePartialData: true
+        // handleManifestRedirects: true
+      },
+      hls: {
+        smoothQualityChange: true
+      }
+    },
     plugins: {
       videoJsResolutionSwitcher: {
         default: 'high',
@@ -167,6 +177,12 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
       }
     })
 
+    // player.on('ready', () => {
+    //   player.tech().on('usage', (e) => {
+    //     console.log(e);
+    //   });
+    // });
+
     newButtonToggle()
   }
 
@@ -185,20 +201,28 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
     if (!player.tech() || !tech.vhs) {
       return
     }
+    // let prefix = 'pt.key'
+    // //'_enc.key'
+    // let urlTpl = 'http://192.168.144.53:80/tt.key'
+
     let prefix = '_enc.key'
-    let urlTpl = 'http://192.168.144.53/test.key'
+    //'_enc.key'
+    let urlTpl = 'http://192.168.144.53:80/tt3.key'
     // 'https://domain.com/path/{key}'
 
     tech.vhs.xhr.beforeRequest = function (options: any) {
       console.log('tech---laod', options);
       // required for detecting only the key requests
       if (options.uri.search(prefix) === -1) { return; }
-      console.log('222');
+      // console.log('222');
       options.headers = options.headers || {};
-      options.headers["Custom-Header"] = "value";
-      let s = '544cbbb9dfcb291c725623c43f8b8ee1'
-      console.log(hexStringToUint8Array(s));
-      options.uri = urlTpl
+      // options.headers["Custom-Header"] = "value";
+      options.headers['Accept-Ranges'] = 'bytes';
+      options.headers['Content-Type'] = 'application/octet-stream';
+      // let s = '544cbbb9dfcb291c725623c43f8b8ee1'
+      // console.log(hexStringToUint8Array(s));
+      options.uri = urlTpl;
+      // urlTpl
       // urlTpl.replace("544cbbb9dfcb291c725623c43f8b8ee1", options.uri.substring(prefix.length));
     }
 

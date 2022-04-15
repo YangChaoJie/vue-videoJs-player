@@ -45,18 +45,24 @@ export default {
           // fullscreenToggle: true
         },
         sources: [
-          {
-            src: 'http://media.xiph.org/mango/tears_of_steel_1080p.webm',
-            type: 'video/webm',
-            label: 'SD',
-            res: '360'
-          },
-          //
-          {
-            src: 'https://vjs.zencdn.net/v/oceans.mp4?HD',
-            type: 'video/mp4',
-            label: 'HD',
-            res: '720'
+          // {
+          //   src: 'http://media.xiph.org/mango/tears_of_steel_1080p.webm',
+          //   type: 'video/webm',
+          //   label: 'SD',
+          //   res: '360'
+          // },
+          // //
+          // {
+          //   src: 'https://vjs.zencdn.net/v/oceans.mp4?HD',
+          //   type: 'video/mp4',
+          //   label: 'HD',
+          //   res: '720'
+          // },
+            {
+            src: 'http://192.168.144.53:80/ocean/playlist.m3u8',
+            type: 'application/x-mpegURL',
+            label: 'HGD',
+            res: '900'
           },
           {
             // src: ' https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8',
