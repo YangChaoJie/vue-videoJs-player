@@ -73,7 +73,7 @@ import { videoPlayer, audioPlayer } from 'vcom-video-player'
         sources: [
           {
             src: 'https://rsszw.czbanbantong.com//localpath/servicecenter/20210401/20210401130614879709195799766/%E3%80%90English_Singsing%E3%80%91Phonics_Rap_Ah264_720x576_800k.mp4',
-            //'http://192.168.144.53:3000/480P_megaproject.mp4',
+            //'http://192.168.31.181:80:3000/480P_megaproject.mp4',
             // 'http://ivi.bupt.edu.cn/hls/cctv1.m3u8',
             type: 'video/mp4',
           },
