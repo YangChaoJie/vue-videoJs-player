@@ -1,5 +1,8 @@
-import videojs, { VideoJsPlayerOptions } from 'video.js'
+// import videojs from './../../lib/video.js/dist/video.es.js';
+import videojs, { VideoJsPlayerOptions } from './../../types/video.js';
+// import { VideoJsPlayerOptions } from 'video.js';
 import { reactive, watchEffect, ref, onMounted, onBeforeUnmount, defineComponent, PropType, Ref } from 'vue-demi'
+// import  { VideoJsPlayerOptions} from '../../types/video.js';
 
 const DEFAULT_EVENTS: string[] = [
   'loadstart',
@@ -222,7 +225,6 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
       // let s = '544cbbb9dfcb291c725623c43f8b8ee1'
       // console.log(hexStringToUint8Array(s));
       options.uri = urlTpl;
-      // urlTpl
       // urlTpl.replace("544cbbb9dfcb291c725623c43f8b8ee1", options.uri.substring(prefix.length));
     }
 

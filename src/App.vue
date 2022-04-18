@@ -44,13 +44,13 @@ export default {
         controlBar: {
           // fullscreenToggle: true
         },
-        plugins: {
-          videoJsResolutionSwitcher: {
-            default: 'low',
-            ui: true,
-            dynamicLabel: true
-          }
-        },
+        // plugins: {
+        //   videoJsResolutionSwitcher: {
+        //     default: 'low',
+        //     ui: true,
+        //     dynamicLabel: true
+        //   }
+        // },
         sources: [
           {
             src: 'https://rsszw.czbanbantong.com//localpath/servicecenter/20210401/20210401130614879709195799766/%E3%80%90English_Singsing%E3%80%91Phonics_Rap_Ah264_720x576_800k.mp4',

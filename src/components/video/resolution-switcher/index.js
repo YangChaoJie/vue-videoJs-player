@@ -2,7 +2,8 @@
  * Copyright (c) 2016 Kasper Moskwiak
  * Modified by hefeng1208
  * Licensed under the Apache-2.0 license. */
-import videojs from 'video.js';
+// import videojs from 'video.js';
+import videojs from '@/lib/video.js/dist/video.es.js';
 import './index.css'
 window.videojs = videojs;
 (function() {

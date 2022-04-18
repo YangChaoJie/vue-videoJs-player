@@ -1,35 +1,61 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@babel/runtime': ^7.12.5
   '@types/video.js': ^7.3.33
+  '@videojs/http-streaming': 2.14.0
+  '@videojs/vhs-utils': ^3.0.4
+  '@videojs/xhr': 2.6.0
   '@vitejs/plugin-vue': ^1.10.2
   '@vue/compiler-sfc': ^3.2.31
+  aes-decrypter: 3.1.2
+  global: ^4.4.0
+  keycode: ^2.2.0
+  m3u8-parser: 4.7.0
+  mpd-parser: 0.21.0
+  mux.js: 6.0.1
+  rollup-plugin-external-globals: ^0.6.1
+  safe-json-parse: 4.0.0
   sass: ^1.49.10
   typescript: ^4.6.3
   vant: ^3.4.7
   vcom-video-player: ^0.0.1
   video.js: 7.19.0
+  videojs-font: 3.2.0
   videojs-landscape-fullscreen: ^11.33.0
+  videojs-vtt.js: ^0.15.3
   vite: ^2.9.0
   vite-plugin-style-import: 1.4.1
   vue: ^3.2.31
   vue-demi: ^0.12.5
   vue-router: ^4.0.14
   vue-use: ^0.2.0
-  xgplayer: ^2.31.4
 
 dependencies:
+  '@babel/runtime': 7.17.8
   '@types/video.js': 7.3.33
+  '@videojs/http-streaming': 2.14.0
+  '@videojs/vhs-utils': 3.0.5
+  '@videojs/xhr': 2.6.0
+  aes-decrypter: 3.1.2
+  global: 4.4.0
+  keycode: 2.2.1
+  m3u8-parser: 4.7.0
+  mpd-parser: 0.21.0
+  mux.js: 6.0.1
+  rollup-plugin-external-globals: 0.6.1
+  safe-json-parse: 4.0.0
   sass: 1.49.10
   vant: 3.4.7_vue@3.2.31
   vcom-video-player: 0.0.1_vite@2.9.0
   video.js: 7.19.0
+  videojs-font: 3.2.0
   videojs-landscape-fullscreen: 11.33.0_video.js@7.19.0
+  videojs-vtt.js: 0.15.3
   vue: 3.2.31
   vue-demi: 0.12.5_vue@3.2.31
   vue-router: 4.0.14_vue@3.2.31
   vue-use: 0.2.0
-  xgplayer: 2.31.4
 
 devDependencies:
   '@vitejs/plugin-vue': 1.10.2_vite@2.9.0
@@ -62,6 +88,10 @@ packages:
     dependencies:
       estree-walker: 2.0.2
       picomatch: 2.3.1
+
+  /@types/estree/0.0.51:
+    resolution: {integrity: sha512-CuPgU6f3eT/XgKKPqKd/gLZV1Xmvf1a2R5POBOGQa6uv82xpls89HU5zKeVoyR8XzHd1RGNOlQlvUe3CFkjWNQ==}
+    dev: false
 
   /@types/video.js/7.3.33:
     resolution: {integrity: sha512-noV9lOUrKtgshy+RScP0RSQKhJtFwGXQ1FzD04TBWu6AvJ1vcQIyMGcd9wQ58sBOMgjw8T/20ot4zKgJUwC6tw==}
@@ -787,6 +817,12 @@ packages:
     engines: {node: '>=0.12.0'}
     dev: false
 
+  /is-reference/1.2.1:
+    resolution: {integrity: sha512-U82MsXXiFIrjCK4otLT+o2NA2Cd2g5MLoOVXUZjIOhLurrRxpEXzI8O0KZHr3IjLvlAH1kTPYSuqer5T9ZVBKQ==}
+    dependencies:
+      '@types/estree': 0.0.51
+    dev: false
+
   /jsonfile/4.0.0:
     resolution: {integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=}
     optionalDependencies:
@@ -942,6 +978,17 @@ packages:
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
     dev: true
+
+  /rollup-plugin-external-globals/0.6.1:
+    resolution: {integrity: sha512-mlp3KNa5sE4Sp9UUR2rjBrxjG79OyZAh/QC18RHIjM+iYkbBwNXSo8DHRMZWtzJTrH8GxQ+SJvCTN3i14uMXIA==}
+    peerDependencies:
+      rollup: ^2.25.0
+    dependencies:
+      '@rollup/pluginutils': 4.2.0
+      estree-walker: 2.0.2
+      is-reference: 1.2.1
+      magic-string: 0.25.9
+    dev: false
 
   /rollup/2.70.1:
     resolution: {integrity: sha512-CRYsI5EuzLbXdxC6RnYhOuRdtz4bhejPMSWjsFLfVM/7w/85n2szZv6yExqUXsBdz5KT8eoubeyDUDjhLHEslA==}

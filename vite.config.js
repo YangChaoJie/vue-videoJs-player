@@ -1,6 +1,12 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import styleImport, { VantResolve } from 'vite-plugin-style-import';
+import externalGlobals from 'rollup-plugin-external-globals';
+const primedExternalGlobals = externalGlobals({
+  'global': 'window',
+  'global/window': 'window',
+  'global/document': 'document'
+});
 const path = require('path');
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,6 +18,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    primedExternalGlobals,
     styleImport({
       resolves: [VantResolve()],
     }),
