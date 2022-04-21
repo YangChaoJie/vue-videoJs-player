@@ -12,6 +12,11 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "src": ["./src/*"],
+      "@/*": [ "src/*" ],
+    },
     "lib": ["esnext", "dom"]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]

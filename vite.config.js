@@ -14,6 +14,7 @@ export default defineConfig({
     alias: {
       '@vue/composition-api/dist/vue-composition-api.esm.js': '@vue/composition-api/dist/vue-composition-api.mjs',
       "@": path.resolve(__dirname, "src")
+      // "@video": path.resolve(__dirname, "src/types")
     }
   },
   plugins: [
@@ -38,6 +39,13 @@ export default defineConfig({
     //   resolves: [VantResolve()]
     // })
   ],
+  css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "./src/lib/video.js/dist/video-js.css";'
+        }
+    }
+  },
    // 在文件中添加以下内容
   server: {
     // host: 'y.vcom.com',

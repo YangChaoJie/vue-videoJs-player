@@ -1,5 +1,5 @@
 // import videojs from './../../lib/video.js/dist/video.es.js';
-import videojs, { VideoJsPlayerOptions } from './../../types/video.js';
+import videojs, { VideoJsPlayerOptions } from '@/types/video.js';
 // import { VideoJsPlayerOptions } from 'video.js';
 import { reactive, watchEffect, ref, onMounted, onBeforeUnmount, defineComponent, PropType, Ref } from 'vue-demi'
 // import  { VideoJsPlayerOptions} from '../../types/video.js';
@@ -79,6 +79,10 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
     playbackRate: [1, 1.5, 2],
     muted: false,
     poster: 'none',
+    controlBar: {
+      fullscreenToggle: true,
+      pictureInPictureToggle: false,
+    },
     html5: {
       vhs: {
         withCredentials: false
@@ -140,6 +144,8 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
       }
       emit?.(event, player)
     }
+    console.log('videoOptions', videoOptions);
+    
     // videoPlayer = refValue!
     player = videojs(refValue?.value ?? '', videoOptions, function onPlayReady() {
       const events = DEFAULT_EVENTS

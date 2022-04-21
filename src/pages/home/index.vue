@@ -15,7 +15,7 @@
 </template>
 
 <script lang="js">
-import 'video.js/dist/video-js.css'
+// import 'video.js/dist/video-js.css'
 import audioPlayer from '@/components/audio/audio.vue'
 import videoPlayer from '@/components/video/video.vue'
 // 判断是否为公众号模拟器环境
@@ -42,7 +42,7 @@ export default {
       videoOptions: {
         poster: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwx3.sinaimg.cn%2Flarge%2F547f46d9ly4gsqmhfbuf1j20u00g2whd.jpg&refer=http%3A%2F%2Fwx3.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1631348141&t=9a2d66a6d2bc463b9d5b69fdb2207e61',
         controlBar: {
-          // fullscreenToggle: true
+          pictureInPictureToggle: false
         },
         sources: [
           // {
@@ -134,7 +134,7 @@ export default {
       }
     },
     onTimeupdate(player) {
-      console.log('监听事件', player.currentTime(), player.duration());
+      // console.log('监听事件', player.currentTime(), player.duration());
         this.$root.$emit('audioPause');
     },
     onTest() {
