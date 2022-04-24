@@ -1,5 +1,4 @@
 import _videojs from 'video.js'
-// import videoPlayer from './player.vue'
 import videoPlayer from './components/video/video.vue';
 import audioPlayer from './components/audio/audio.vue';
 const videojs = window.videojs || _videojs

@@ -35,7 +35,6 @@
 
 <script>
 import videojs from 'video.js'
-import 'video.js/dist/video-js.css'
 import '../video/video.scss'
 import './audio.scss'
 import './audio.js'

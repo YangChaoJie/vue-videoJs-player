@@ -1,9 +1,9 @@
 // import videojs from './../../lib/video.js/dist/video.es.js';
-import videojs, { VideoJsPlayerOptions } from './../../types/video.js';
+import videojs, { VideoJsPlayerOptions } from '@/types/video.js';
 // import { VideoJsPlayerOptions } from 'video.js';
 import { reactive, watchEffect, ref, onMounted, onBeforeUnmount, defineComponent, PropType, Ref } from 'vue-demi'
-// import  { VideoJsPlayerOptions} from '../../types/video.js';
-
+// import '../SettingMenu/SettingMenu.js';
+import '../SettingMenu/SettingMenuButton.js';
 const DEFAULT_EVENTS: string[] = [
   'loadstart',
   'loadeddata',
@@ -80,27 +80,27 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
     muted: false,
     poster: 'none',
     controlBar: {
-      fullscreenToggle: false,
-      pictureInPictureToggle: true,
+      fullscreenToggle: true,
+      pictureInPictureToggle: false,
     },
-    html5: {
-      vhs: {
-        withCredentials: false
-        // handlePartialData: true
-        // handleManifestRedirects: true
-      },
-      hls: {
-        smoothQualityChange: true
-      }
-    },
+    // html5: {
+    //   vhs: {
+    //     withCredentials: false
+    //     // handlePartialData: true
+    //     // handleManifestRedirects: true
+    //   },
+    //   hls: {
+    //     smoothQualityChange: true
+    //   }
+    // },
     plugins: {
-      videoJsResolutionSwitcher: {
-        default: 'high',
-        ui: true,
-        dynamicLabel: true
-      }
-    }
-    // videoOptions: {}
+      // videoJsResolutionSwitcher: {
+      //   default: 'high',
+      //   ui: true,
+      //   dynamicLabel: true
+      // }
+    },
+    videoOptions: {}
   })
 
   let videoOptions = {};
@@ -129,8 +129,6 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
       ...defaultConfig,
       ...options
     }
-    console.log('videoOptions', videoOptions);
-    
     const emitPlayerSate = (event: Name) => {
       if (event) {
         switch (event) {
@@ -146,6 +144,8 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
       }
       emit?.(event, player)
     }
+    console.log('videoOptions', videoOptions);
+    
     // videoPlayer = refValue!
     player = videojs(refValue?.value ?? '', videoOptions, function onPlayReady() {
       const events = DEFAULT_EVENTS
@@ -159,12 +159,12 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
         }
       }
     })
-    const p = player as any
-    p.updateSrc(options?.sources)
+    // const p = player as any
+    // p.updateSrc(options?.sources)
 
-    player.on('resolutionchange', () => {
-      console.info('Source changed to %s', player.src())
-    })
+    // player.on('resolutionchange', () => {
+    //   console.info('Source changed to %s', player.src())
+    // })
     // p.landscapeFullscreen({
     //   fullscreen: {
     //     enterOnRotate: true,
@@ -192,6 +192,8 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
     //   });
     // });
 
+    // console.log('videojs.getComponent', videojs.getComponent('SettingMenu'));
+    player.controlBar.addChild('SettingMenuButton');
     newButtonToggle()
   }
 
@@ -212,15 +214,15 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
     }
     // let prefix = 'pt.key'
     // //'_enc.key'
-    // let urlTpl = 'http://192.168.31.181:80:80/tt.key'
+    // let urlTpl = 'http://192.168.144.53:80/tt.key'
 
     let prefix = '_enc.key'
     //'_enc.key'
-    let urlTpl = 'http://192.168.31.181:80/tt3.key'
+    let urlTpl = 'http://192.168.144.53:80/tt3.key'
     // 'https://domain.com/path/{key}'
 
     tech.vhs.xhr.beforeRequest = function (options: any) {
-      console.log('tech---laod', options);
+      // console.log('tech---laod', options);
       // required for detecting only the key requests
       if (options.uri.search(prefix) === -1) { return; }
       // console.log('222');

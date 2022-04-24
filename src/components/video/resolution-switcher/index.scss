@@ -22,7 +22,7 @@
 
 
 .vjs-resolution-button  .vjs-menu .vjs-menu-content {
-  width: 4em;
+  width: 4em !important;
   left: 50%; /* Center the menu, in it's parent */
   margin-left: -2em; /* half of width, to center */
 }
