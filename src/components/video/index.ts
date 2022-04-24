@@ -2,8 +2,8 @@
 import videojs, { VideoJsPlayerOptions } from '@/types/video.js';
 // import { VideoJsPlayerOptions } from 'video.js';
 import { reactive, watchEffect, ref, onMounted, onBeforeUnmount, defineComponent, PropType, Ref } from 'vue-demi'
-// import  { VideoJsPlayerOptions} from '../../types/video.js';
-
+// import '../SettingMenu/SettingMenu.js';
+import '../SettingMenu/SettingMenuButton.js';
 const DEFAULT_EVENTS: string[] = [
   'loadstart',
   'loadeddata',
@@ -83,22 +83,22 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
       fullscreenToggle: true,
       pictureInPictureToggle: false,
     },
-    html5: {
-      vhs: {
-        withCredentials: false
-        // handlePartialData: true
-        // handleManifestRedirects: true
-      },
-      hls: {
-        smoothQualityChange: true
-      }
-    },
+    // html5: {
+    //   vhs: {
+    //     withCredentials: false
+    //     // handlePartialData: true
+    //     // handleManifestRedirects: true
+    //   },
+    //   hls: {
+    //     smoothQualityChange: true
+    //   }
+    // },
     plugins: {
-      videoJsResolutionSwitcher: {
-        default: 'high',
-        ui: true,
-        dynamicLabel: true
-      }
+      // videoJsResolutionSwitcher: {
+      //   default: 'high',
+      //   ui: true,
+      //   dynamicLabel: true
+      // }
     },
     videoOptions: {}
   })
@@ -159,19 +159,19 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
         }
       }
     })
-    const p = player as any
-    p.updateSrc(options?.sources)
+    // const p = player as any
+    // p.updateSrc(options?.sources)
 
-    player.on('resolutionchange', () => {
-      console.info('Source changed to %s', player.src())
-    })
-    p.landscapeFullscreen({
-      fullscreen: {
-        enterOnRotate: true,
-        alwaysInLandscapeMode: true,
-        iOS: false
-      }
-    })
+    // player.on('resolutionchange', () => {
+    //   console.info('Source changed to %s', player.src())
+    // })
+    // p.landscapeFullscreen({
+    //   fullscreen: {
+    //     enterOnRotate: true,
+    //     alwaysInLandscapeMode: true,
+    //     iOS: false
+    //   }
+    // })
 
     videojs.use('video/mp4', (player) => {
       console.log('正在播放');
@@ -192,6 +192,8 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
     //   });
     // });
 
+    // console.log('videojs.getComponent', videojs.getComponent('SettingMenu'));
+    player.controlBar.addChild('SettingMenuButton');
     newButtonToggle()
   }
 
@@ -220,7 +222,7 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
     // 'https://domain.com/path/{key}'
 
     tech.vhs.xhr.beforeRequest = function (options: any) {
-      console.log('tech---laod', options);
+      // console.log('tech---laod', options);
       // required for detecting only the key requests
       if (options.uri.search(prefix) === -1) { return; }
       // console.log('222');

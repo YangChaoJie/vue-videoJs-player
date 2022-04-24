@@ -1,18 +1,24 @@
-import videojs, { VideoJsPlayer } from "@/types/video";
+import videojs from "@/types/video.js";
+
+import CloseSettingMenu from './CloseSettingMenu';
 
 const Menu = videojs.getComponent('Menu');
 
 class SettingMenu extends Menu {
-  mainMenuItems: videojs.Component[] = [];
-  constructor(player: VideoJsPlayer, options: videojs.MenuOptions) {
-    super(player, options);
+  constructor(player, options) {
+    super(player, {
+      ...options,
+      name: 'SettingMenu'
+    });
+
     this.addClass('vjs-setting-menu');
   }
 
-  init () {
-    if (!this.contentEl()) {
+  init() {
+    if (!this.contentEl_) {
       return;
     }
+
     this.mainMenuItems = this.children().slice(0);
 
     this.transform(this.mainMenuItems);
@@ -26,14 +32,15 @@ class SettingMenu extends Menu {
      */
     this.addClass('vjs-setting-menu-ready');
   }
+
   createEl() {
     const el = super.createEl();
-    el.textContent = '设置';
-    // const layer = new CloseSettingMenu(this.player_, {
-    //   menu: this
-    // });
+    const layer = new CloseSettingMenu(this.player_, {
+      menu: this
+    });
 
-    // el.insertBefore(layer.el_, el.firstElementChild);
+    el.insertBefore(layer.el_, el.firstElementChild);
+
     return el;
   }
 
@@ -49,19 +56,19 @@ class SettingMenu extends Menu {
     });
   }
 
-  resize(el: DOMRect) {
-    (this.contentEl() as HTMLElement).style.width = el.width + 'px';
-    (this.contentEl() as HTMLElement).style.height = el.height + 'px';
+  resize({ width, height }) {
+    this.contentEl_.style.width = width + 'px';
+    this.contentEl_.style.height = height + 'px';
   }
 
-  getMenuDimension(items: any): DOMRect {
+  getMenuDimension(items) {
     const player = this.player_;
     const tempMenu = new SettingMenuTemp(player);
 
     tempMenu.update(items);
     player.addChild(tempMenu);
 
-    const rect = tempMenu.contentEl().getBoundingClientRect();
+    const rect = tempMenu.contentEl_.getBoundingClientRect();
 
     // remove subMenuItem form tempMenu first, otherwise they will also be disposed
     tempMenu.update();
@@ -73,7 +80,7 @@ class SettingMenu extends Menu {
     return rect;
   }
 
-  transform(items: any) {
+  transform(items) {
     const dimensions = this.getMenuDimension(items);
     this.update(items);
     this.resize(dimensions);
@@ -84,7 +91,7 @@ class SettingMenu extends Menu {
   }
 
   removeStyle() {
-    this.contentEl().removeAttribute('style');
+    this.contentEl_.removeAttribute('style');
   }
 
   hide() {
@@ -92,9 +99,12 @@ class SettingMenu extends Menu {
     // As the default hide function violate the calculation of menu dimension
   }
 }
+
 class SettingMenuTemp extends SettingMenu {
-  constructor(player: VideoJsPlayer) {
-    super(player, {} as videojs.MenuOptions);
+  constructor(player) {
+    super(player, {
+      name: 'SettingMenuTemp'
+    });
   }
 }
 

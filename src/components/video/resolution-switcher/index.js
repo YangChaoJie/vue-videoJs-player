@@ -4,7 +4,7 @@
  * Licensed under the Apache-2.0 license. */
 // import videojs from 'video.js';
 import videojs from '@/lib/video.js/dist/video.es.js';
-import './index.css'
+import './index.scss'
 window.videojs = videojs;
 (function() {
   /* jshint eqnull: true*/

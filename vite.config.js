@@ -37,12 +37,15 @@ export default defineConfig({
       //   },
       // ],
     //   resolves: [VantResolve()]
-    // })
+    // })      @import "./src/components/SettingMenu/SettingMenu.scss";
   ],
   css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@import "./src/lib/video.js/dist/video-js.css";'
+          additionalData: `
+          @import "./src/lib/video.js/dist/video-js.css";
+          @import "./src/components/SettingMenu/SettingMenu.scss";
+          `
         }
     }
   },
