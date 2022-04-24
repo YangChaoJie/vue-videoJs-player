@@ -79,6 +79,10 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
     playbackRate: [1, 1.5, 2],
     muted: false,
     poster: 'none',
+    controlBar: {
+      fullscreenToggle: false,
+      pictureInPictureToggle: true,
+    },
     html5: {
       vhs: {
         withCredentials: false
@@ -95,8 +99,8 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
         ui: true,
         dynamicLabel: true
       }
-    },
-    videoOptions: {}
+    }
+    // videoOptions: {}
   })
 
   let videoOptions = {};
@@ -125,6 +129,8 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
       ...defaultConfig,
       ...options
     }
+    console.log('videoOptions', videoOptions);
+    
     const emitPlayerSate = (event: Name) => {
       if (event) {
         switch (event) {
@@ -159,13 +165,13 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
     player.on('resolutionchange', () => {
       console.info('Source changed to %s', player.src())
     })
-    p.landscapeFullscreen({
-      fullscreen: {
-        enterOnRotate: true,
-        alwaysInLandscapeMode: true,
-        iOS: false
-      }
-    })
+    // p.landscapeFullscreen({
+    //   fullscreen: {
+    //     enterOnRotate: true,
+    //     alwaysInLandscapeMode: true,
+    //     iOS: false
+    //   }
+    // })
 
     videojs.use('video/mp4', (player) => {
       console.log('正在播放');
@@ -206,11 +212,11 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
     }
     // let prefix = 'pt.key'
     // //'_enc.key'
-    // let urlTpl = 'http://192.168.144.53:80/tt.key'
+    // let urlTpl = 'http://192.168.31.181:80:80/tt.key'
 
     let prefix = '_enc.key'
     //'_enc.key'
-    let urlTpl = 'http://192.168.144.53:80/tt3.key'
+    let urlTpl = 'http://192.168.31.181:80/tt3.key'
     // 'https://domain.com/path/{key}'
 
     tech.vhs.xhr.beforeRequest = function (options: any) {
