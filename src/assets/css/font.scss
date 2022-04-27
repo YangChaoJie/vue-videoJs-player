@@ -1,0 +1,13 @@
+@import 'videojs-font/scss/videojs-icons.scss';
+.vjs-setting-button {
+  .vjs-icon-placeholder {
+    @extend .vjs-icon-cog;
+    &:before {
+      font-size: 0.8em;
+      transform: translateY(-1.105em);
+      display: block;
+    }
+  }
+}
+
+

@@ -28,7 +28,9 @@ const emit = defineEmits<{
   (event: string, player: videojs.Player): void
 }>()
 
-const videoPlayer = ref<HTMLElement | null>(null)
+console.log('llllllllllllllllll', props.options);
 
+const videoPlayer = ref<HTMLElement | null>(null)
+console.log('typellll', typeof videoPlayer);
 useVideo(props.options, emit, videoPlayer)
 </script>

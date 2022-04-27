@@ -42,6 +42,8 @@ export default {
       videoOptions: {
         poster: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwx3.sinaimg.cn%2Flarge%2F547f46d9ly4gsqmhfbuf1j20u00g2whd.jpg&refer=http%3A%2F%2Fwx3.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1631348141&t=9a2d66a6d2bc463b9d5b69fdb2207e61',
         controlBar: {
+          // SettingMenuButton: true,
+          // FullscreenToggle: true,
           pictureInPictureToggle: false
         },
         sources: [

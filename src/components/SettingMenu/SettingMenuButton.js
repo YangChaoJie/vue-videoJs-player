@@ -4,6 +4,7 @@ import 'video.js/dist/video-js.css'
 import './Item/SettingOnOffItem';
 import './Item/SettingOptionItem.js';
 import './PlaybackRate/PlaybackRateSettingItem.js';
+import 'videojs-font/css/videojs-icons.css';
 // import './SettingMenu.scss';
 
 const MenuButton = videojs.getComponent('MenuButton');

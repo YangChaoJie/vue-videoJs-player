@@ -1,12 +1,12 @@
-@import '@/assets/css/variable.scss';
-
+// @import '@/assets/css/variable.scss';
+@import '@/assets/css/common.scss';
 .vjs-setting-button {
-  background: rebeccapurple;
   .vjs-icon-placeholder {
     display: block;
     transform: rotate(0deg);
     transition: 0.2s transform;
   }
+
   &[aria-expanded='true'] {
     .vjs-icon-placeholder {
       transform: rotate(30deg);
@@ -89,9 +89,7 @@
     }
   }
 }
-// .vjs-setting-button .vjs-icon-placeholder:before {
-//   content: "\f110";
-// }
+
 .vjs-menu-item.vjs-settings-sub-menu-title {
   background-color: transparent !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
@@ -237,3 +235,4 @@
     }
   }
 }
+

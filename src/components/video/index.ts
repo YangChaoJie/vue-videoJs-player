@@ -1,7 +1,7 @@
 // import videojs from './../../lib/video.js/dist/video.es.js';
 import videojs, { VideoJsPlayerOptions } from '@/types/video.js';
 // import { VideoJsPlayerOptions } from 'video.js';
-import { reactive, watchEffect, ref, onMounted, onBeforeUnmount, defineComponent, PropType, Ref } from 'vue-demi'
+import { reactive, watchEffect, ref, onMounted, onBeforeUnmount, defineComponent, PropType, Ref, UnwrapRef } from 'vue-demi'
 // import '../SettingMenu/SettingMenu.js';
 import '../SettingMenu/SettingMenuButton.js';
 const DEFAULT_EVENTS: string[] = [
@@ -62,6 +62,8 @@ export const UseVideoComponent = defineComponent({
   emits: DEFAULT_EVENTS,
   setup(props, { emit }) {
     const videoPlayer = ref<HTMLElement | null>(null)
+    console.log('typellll', typeof videoPlayer);
+    
     useVideo(props.options, emit, videoPlayer)
   }
 })
@@ -72,17 +74,17 @@ export const UseVideoComponent = defineComponent({
  * @param emit  
  * @param refValue dom
  */
-export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(options?: P, emit?: (name: Name, ...args: any[]) => void, refValue?: Ref<HTMLElement | null>) {
+export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(options?: P, emit?: (name: Name, ...args: any[]) => void, refValue?: Ref<HTMLElement | null | any>) {
   const defaultConfig = reactive({
     controls: true,
     autoplay: true,
     playbackRate: [1, 1.5, 2],
     muted: false,
     poster: 'none',
-    controlBar: {
-      fullscreenToggle: true,
-      pictureInPictureToggle: false,
-    },
+    // controlBar: {
+    //   fullscreenToggle: true,
+    //   pictureInPictureToggle: false,
+    // },
     // html5: {
     //   vhs: {
     //     withCredentials: false
@@ -94,16 +96,16 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
     //   }
     // },
     plugins: {
-      // videoJsResolutionSwitcher: {
-      //   default: 'high',
-      //   ui: true,
-      //   dynamicLabel: true
-      // }
+      videoJsResolutionSwitcher: {
+        default: 'high',
+        ui: true,
+        dynamicLabel: true
+      }
     },
     videoOptions: {}
   })
 
-  let videoOptions = {};
+  let videoOptions: any = {};
   let videoPlayer = ref<HTMLElement | null>(null)
   let player: videojs.Player
 
@@ -144,9 +146,18 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
       }
       emit?.(event, player)
     }
-    console.log('videoOptions', videoOptions);
-    
-    // videoPlayer = refValue!
+    console.log('videoOptions', videoOptions, 'option----', options);
+    videoOptions.controlBar.children = [
+      "playToggle",
+      "VolumePanel",
+      "durationDisplay",
+      "timeDivider",
+      "currentTimeDisplay",
+      "progressControl",
+      "remainingTimeDisplay",
+      'SettingMenuButton',
+      'fullscreenToggle'
+    ]
     player = videojs(refValue?.value ?? '', videoOptions, function onPlayReady() {
       const events = DEFAULT_EVENTS
       for (let i = 0; i < events.length; i++) {
@@ -159,12 +170,13 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
         }
       }
     })
-    // const p = player as any
-    // p.updateSrc(options?.sources)
 
-    // player.on('resolutionchange', () => {
-    //   console.info('Source changed to %s', player.src())
-    // })
+    const p = player as any
+    p.updateSrc(options?.sources)
+
+    player.on('resolutionchange', () => {
+      console.info('Source changed to %s', player.src())
+    })
     // p.landscapeFullscreen({
     //   fullscreen: {
     //     enterOnRotate: true,
@@ -192,8 +204,8 @@ export function useVideo<P extends VideoJsPlayerOptions, Name extends string>(op
     //   });
     // });
 
-    // console.log('videojs.getComponent', videojs.getComponent('SettingMenu'));
-    player.controlBar.addChild('SettingMenuButton');
+    // player.controlBar.addChild('SettingMenuButton');
+    
     newButtonToggle()
   }
 
